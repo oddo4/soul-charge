@@ -107,9 +107,9 @@ namespace formular.ViewModels
             }
         }
 
-        private DateTime? date;
+        private DateTime date;
 
-        public DateTime? Date
+        public DateTime Date
         {
             get
             {

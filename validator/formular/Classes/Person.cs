@@ -11,7 +11,16 @@ namespace formular.Classes
         public string Firstname { get; set; }
         public string Surname { get; set; }
         public string IDNumber { get; set; }
-        public DateTime? DateOfBirth { get; set; }
+        public DateTime DateOfBirth { get; set; }
+
+        public string DateString
+        {
+            get
+            {
+                return DateOfBirth.ToString("dd'. 'MM'. 'yyyy");
+            }
+        }
+
         public string Gender { get; set; }
     }
 }

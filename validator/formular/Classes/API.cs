@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -12,7 +13,7 @@ namespace formular.Classes
         public async Task<string> GetPostsJsonTask(string query)
         {
             var client = new HttpClient();
-            var uri = new Uri("https://api.edamam.com/search?q=" + query + "&app_id=" + apiID + "&app_key=" + apiKey + "&from=0&to=10");
+            var uri = new Uri("https://student.sps-prosek.cz/~bounlfi15/evidence/api.php");
 
             string content = await Task.Run(async () =>
             {
@@ -22,9 +23,9 @@ namespace formular.Classes
             });
             return content;
         }
-        public async Task<ResultData> ParsePostJsonTask(string json)
+        public async Task<List<Person>> ParsePostJsonTask(string json)
         {
-            return await Task.Run(() => JsonConvert.DeserializeObject<ResultData>(json));
+            return await Task.Run(() => JsonConvert.DeserializeObject<List<Person>>(json));
 
         }
     }

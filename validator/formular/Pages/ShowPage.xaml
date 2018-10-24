@@ -12,7 +12,11 @@
         <ListView HorizontalAlignment="Center" Height="300" VerticalAlignment="Center" Width="500" ItemsSource="{Binding ResultData}">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn/>
+                    <GridViewColumn Header="Jméno" DisplayMemberBinding="{Binding Firstname}"/>
+                    <GridViewColumn Header="Příjmení" DisplayMemberBinding="{Binding Surname}"/>
+                    <GridViewColumn Header="Rodné číslo" DisplayMemberBinding="{Binding IDNumber}"/>
+                    <GridViewColumn Header="Datum narození" DisplayMemberBinding="{Binding DateString}"/>
+                    <GridViewColumn Header="Pohlaví" DisplayMemberBinding="{Binding Gender}"/>
                 </GridView>
             </ListView.View>
         </ListView>
