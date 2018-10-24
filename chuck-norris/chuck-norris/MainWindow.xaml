@@ -1,0 +1,20 @@
+﻿<Window x:Class="chuck_norris.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:chuck_norris"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+        <TextBlock x:Name="JokeTxtBlk" HorizontalAlignment="Center" VerticalAlignment="Center" Width="500" TextWrapping="Wrap"/>
+        <ListView x:Name="TestList" Height="300" Width="500">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Joke" DisplayMemberBinding="{Binding Value}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+    </StackPanel>
+</Window>
