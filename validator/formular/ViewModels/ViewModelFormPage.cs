@@ -168,6 +168,21 @@ namespace formular.ViewModels
             }
         }
 
+        private RelayCommand selectGenderCommand;
+
+        public RelayCommand SelectGenderCommand
+        {
+            get
+            {
+                return selectGenderCommand;
+            }
+            set
+            {
+                selectGenderCommand = value;
+                RaisePropertyChanged("SelectGenderCommand");
+            }
+        }
+
         private RelayCommand sendCommand;
 
         public RelayCommand SendCommand
@@ -183,21 +198,41 @@ namespace formular.ViewModels
             }
         }
 
+        private RelayCommand goBackCommand;
+
+        public RelayCommand GoBackCommand
+        {
+            get
+            {
+                return goBackCommand;
+            }
+            set
+            {
+                goBackCommand = value;
+                RaisePropertyChanged("GoBackCommand");
+            }
+        }
+
         public ViewModelFormPage()
         {
             SendCommand = new RelayCommand(ValidateForm, true);
+            GoBackCommand = new RelayCommand(NavigateBack, true);
+            SelectGenderCommand = new RelayCommand(SetGender, true);
         }
 
         private void ValidateForm()
         {
             ErrorMessage = "";
-
+      
             ValidationResult results = validator.Validate(Person);
 
             if (results.IsValid)
             {
+                AddData();
+
                 ErrorMessage = "Odesláno.";
                 SendNotice = Visibility.Visible;
+
             }
             else
             {
@@ -205,6 +240,22 @@ namespace formular.ViewModels
                     ErrorMessage += error.ErrorMessage + " ";
                 SendNotice = Visibility.Visible;
             }
+        }
+
+        private void AddData()
+        {
+            API api = new API();
+            api.InsertData(Person);
+        }
+
+        private void NavigateBack()
+        {
+            NavigationServiceSingleton.GetNavigationService().NavigateBack();
+        }
+
+        private void SetGender()
+        {
+            Person.SetGender();
         }
 
     }

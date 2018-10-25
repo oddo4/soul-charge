@@ -143,15 +143,23 @@
     <Compile Include="Classes\Person.cs" />
     <Compile Include="Classes\PersonValidator.cs" />
     <Compile Include="Classes\ValidationExtensions.cs" />
+    <Compile Include="Pages\DeletePage.xaml.cs">
+      <DependentUpon>DeletePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\ShowPage.xaml.cs">
       <DependentUpon>ShowPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\ViewModelDeletePage.cs" />
     <Compile Include="ViewModels\ViewModelFormPage.cs" />
     <Compile Include="ViewModels\ViewModelMainPage.cs" />
     <Compile Include="ViewModels\ViewModelShowPage.cs" />
+    <Page Include="Pages\DeletePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\FormPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -9,6 +9,7 @@
       Title="FormPage">
 
     <Grid Background="White">
+        <Button Content="Zpět" Width="50" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" Command="{Binding GoBackCommand}"/>
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
             <Label Content="Přidávání dat" HorizontalAlignment="Center" FontWeight="Bold"/>
             <StackPanel Orientation="Horizontal" Margin="0,5" HorizontalAlignment="Center">
@@ -85,9 +86,9 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="0,5" HorizontalAlignment="Center">
                 <Label Content="Pohlaví:" HorizontalContentAlignment="Right" Height="25" Width="100"/>
-                <RadioButton IsChecked="{Binding MaleChecked}" Content="Muž" Margin="5,5"/>
-                <RadioButton IsChecked="{Binding FemaleChecked}" Content="Žena" Margin="5,5"/>
-                <RadioButton IsChecked="{Binding OtherChecked}" Content="Jiné" Margin="5,5"/>
+                <RadioButton Command="{Binding SelectedGenderCommand}" CommandParameter="0" Content="Muž" Margin="5,5"/>
+                <RadioButton Content="Žena" Margin="5,5"/>
+                <RadioButton Content="Jiné" Margin="5,5"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="0,5" HorizontalAlignment="Center">
                 <Button Content="Odeslat" Width="70" Command="{Binding SendCommand}"/>

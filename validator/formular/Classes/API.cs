@@ -23,6 +23,27 @@ namespace formular.Classes
             });
             return content;
         }
+
+        public async void InsertData(Person newPerson)
+        {
+            var client = new HttpClient();
+            var request = new HttpRequestMessage(HttpMethod.Post, "https://student.sps-prosek.cz/~bounlfi15/evidence/api.php");
+
+            var keyValues = new List<KeyValuePair<string, string>>();
+
+            keyValues = newPerson.CreateKeyValues();
+
+            request.Content = new FormUrlEncodedContent(keyValues);
+
+            string content = await Task.Run(async () =>
+            {
+                var response = await client.SendAsync(request);
+                if (response.IsSuccessStatusCode) return await response.Content.ReadAsStringAsync();
+                throw new HttpRequestException("Communication with server failed");
+            });      
+        }
+
+
         public async Task<List<Person>> ParsePostJsonTask(string json)
         {
             return await Task.Run(() => JsonConvert.DeserializeObject<List<Person>>(json));
