@@ -4,10 +4,14 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:formular.Pages"
+      xmlns:vm="clr-namespace:formular.ViewModels"
       mc:Ignorable="d" 
       d:DesignHeight="350" d:DesignWidth="525"
       Title="FormPage">
-
+    <Page.Resources>
+        <vm:ViewModelFormPage x:Key="GenderConvert" />
+    </Page.Resources>
+    
     <Grid Background="White">
         <Button Content="Zpět" Width="50" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" Command="{Binding GoBackCommand}"/>
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -87,8 +91,8 @@
             <StackPanel Orientation="Horizontal" Margin="0,5" HorizontalAlignment="Center">
                 <Label Content="Pohlaví:" HorizontalContentAlignment="Right" Height="25" Width="100"/>
                 <RadioButton Command="{Binding SelectedGenderCommand}" CommandParameter="0" Content="Muž" Margin="5,5"/>
-                <RadioButton Content="Žena" Margin="5,5"/>
-                <RadioButton Content="Jiné" Margin="5,5"/>
+                <RadioButton Command="{Binding SelectedGenderCommand}" CommandParameter="1" Content="Žena" Margin="5,5"/>
+                <RadioButton Command="{Binding SelectedGenderCommand}" CommandParameter="2" Content="Jiné" Margin="5,5"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="0,5" HorizontalAlignment="Center">
                 <Button Content="Odeslat" Width="70" Command="{Binding SendCommand}"/>

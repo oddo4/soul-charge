@@ -30,15 +30,29 @@ namespace formular.Classes
             list.Add(new KeyValuePair<string, string>("Firstname", Firstname));
             list.Add(new KeyValuePair<string, string>("Surname", Surname));
             list.Add(new KeyValuePair<string, string>("IDNumber", IDNumber));
-            list.Add(new KeyValuePair<string, string>("DateOfBirth", DateOfBirth.ToString()));
+            list.Add(new KeyValuePair<string, string>("DateOfBirth", DateOfBirth.ToString("yyyy'-'MM'-'dd")));
             list.Add(new KeyValuePair<string, string>("Gender", Gender));
 
             return list;
         }
 
-        public void SetGender(int type)
+        public void SetGender(int type = 0)
         {
-
+            switch (type)
+            {
+                case 0:
+                    Gender = "M";
+                    break;
+                case 1:
+                    Gender = "F";
+                    break;
+                case 2:
+                    Gender = "?";
+                    break;
+                default:
+                    Gender = "?";
+                    break;
+            }
         }
     }
 }

@@ -5,14 +5,61 @@ using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Data;
 
 namespace formular.ViewModels
 {
+    public enum Gender
+    {
+        Male,
+        Female,
+        Other,
+        Undefined
+    }
+
+    public class GenderConvert : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            int p = 4;
+            int.TryParse((string)parameter, out p);
+            if (value is Gender)
+            {
+                Gender v = (Gender)value;
+                if (v == Gender.Male && p == 0)
+                    return true;
+                if (v == Gender.Female && p == 1)
+                    return true;
+                if (v == Gender.Other && p == 2)
+                    return true;
+            }
+            return false;
+        }
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            int p = 4;
+            int.TryParse((string)parameter, out p);
+            if (value is bool && (bool)value)
+                switch (p)
+                {
+                    case 0:
+                        return Gender.Male;
+                    case 1:
+                        return Gender.Female;
+                    case 2:
+                        return Gender.Other;
+                    default:
+                        return Gender.Undefined;
+                }
+            return null;
+        }
+    }
     class ViewModelFormPage : ViewModelBase
     {
         public Person Person = new Person();
@@ -168,9 +215,9 @@ namespace formular.ViewModels
             }
         }
 
-        private RelayCommand selectGenderCommand;
+        private RelayCommand<int> selectGenderCommand;
 
-        public RelayCommand SelectGenderCommand
+        public RelayCommand<int> SelectGenderCommand
         {
             get
             {
@@ -217,7 +264,7 @@ namespace formular.ViewModels
         {
             SendCommand = new RelayCommand(ValidateForm, true);
             GoBackCommand = new RelayCommand(NavigateBack, true);
-            SelectGenderCommand = new RelayCommand(SetGender, true);
+            SelectGenderCommand = new RelayCommand<int>(SetGender, true);
         }
 
         private void ValidateForm()
@@ -253,9 +300,9 @@ namespace formular.ViewModels
             NavigationServiceSingleton.GetNavigationService().NavigateBack();
         }
 
-        private void SetGender()
+        private void SetGender(int type)
         {
-            Person.SetGender();
+            Person.SetGender(type);
         }
 
     }
