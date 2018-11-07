@@ -90,7 +90,7 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="0,5" HorizontalAlignment="Center">
                 <Label Content="Pohlaví:" HorizontalContentAlignment="Right" Height="25" Width="100"/>
-                <RadioButton Command="{Binding SelectedGenderCommand}" CommandParameter="0" Content="Muž" Margin="5,5"/>
+                <RadioButton IsChecked="{Binding Gender, Converter={StaticResource GenderConvert}, ConverterParameter=0}" Content="Muž" Margin="5,5"/>
                 <RadioButton Command="{Binding SelectedGenderCommand}" CommandParameter="1" Content="Žena" Margin="5,5"/>
                 <RadioButton Command="{Binding SelectedGenderCommand}" CommandParameter="2" Content="Jiné" Margin="5,5"/>
             </StackPanel>

@@ -215,6 +215,22 @@ namespace formular.ViewModels
             }
         }
 
+        private Gender gender = Gender.Undefined;
+        public Gender Gender
+        {
+            get
+            {
+                return gender;
+            }
+            set
+            {
+                if (gender == value)
+                    return;
+                gender = value;
+                RaisePropertyChanged("Gender");
+            }
+        }
+
         private RelayCommand<int> selectGenderCommand;
 
         public RelayCommand<int> SelectGenderCommand
@@ -302,7 +318,6 @@ namespace formular.ViewModels
 
         private void SetGender(int type)
         {
-            Person.SetGender(type);
         }
 
     }
