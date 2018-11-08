@@ -10,9 +10,11 @@ namespace formular.Classes
 {
     class API
     {
+
+        private HttpClient client = new HttpClient();
+
         public async Task<string> GetPostsJsonTask(string query)
         {
-            var client = new HttpClient();
             var uri = new Uri("https://student.sps-prosek.cz/~bounlfi15/evidence/api.php");
 
             string content = await Task.Run(async () =>
@@ -26,7 +28,6 @@ namespace formular.Classes
 
         public async void InsertData(Person newPerson)
         {
-            var client = new HttpClient();
             var request = new HttpRequestMessage(HttpMethod.Post, "https://student.sps-prosek.cz/~bounlfi15/evidence/api.php");
 
             var keyValues = new List<KeyValuePair<string, string>>();

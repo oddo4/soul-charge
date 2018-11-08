@@ -22,44 +22,6 @@ namespace formular.ViewModels
         Other,
         Undefined
     }
-
-    public class GenderConvert : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            int p = 4;
-            int.TryParse((string)parameter, out p);
-            if (value is Gender)
-            {
-                Gender v = (Gender)value;
-                if (v == Gender.Male && p == 0)
-                    return true;
-                if (v == Gender.Female && p == 1)
-                    return true;
-                if (v == Gender.Other && p == 2)
-                    return true;
-            }
-            return false;
-        }
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            int p = 4;
-            int.TryParse((string)parameter, out p);
-            if (value is bool && (bool)value)
-                switch (p)
-                {
-                    case 0:
-                        return Gender.Male;
-                    case 1:
-                        return Gender.Female;
-                    case 2:
-                        return Gender.Other;
-                    default:
-                        return Gender.Undefined;
-                }
-            return null;
-        }
-    }
     class ViewModelFormPage : ViewModelBase
     {
         public Person Person = new Person();
@@ -104,7 +66,7 @@ namespace formular.ViewModels
             set
             {
                 firstName = value;
-                Person.Firstname = FirstName;
+                Person.Firstname = firstName;
                 BoolFirstName = !ValidationExtensions.Validate(validator, Person, "Firstname").IsValid;
                 RaisePropertyChanged("FirstName");
             }
@@ -134,7 +96,7 @@ namespace formular.ViewModels
             set
             {
                 surName = value;
-                Person.Surname = SurName;
+                Person.Surname = surName;
                 BoolSurName = !ValidationExtensions.Validate(validator, Person, "Surname").IsValid;
                 RaisePropertyChanged("SurName");
             }
@@ -165,7 +127,7 @@ namespace formular.ViewModels
             set
             {
                 date = value;
-                Person.DateOfBirth = Date;
+                Person.DateOfBirth = date;
                 BoolDate = !ValidationExtensions.Validate(validator, Person, "Date").IsValid;
                 RaisePropertyChanged("Date");
             }
@@ -195,7 +157,7 @@ namespace formular.ViewModels
             set
             {
                 idNumber = value;
-                Person.IDNumber = IDNumber;
+                Person.IDNumber = idNumber;
                 BoolIDNumber = !ValidationExtensions.Validate(validator, Person, "IDNumber").IsValid;
                 RaisePropertyChanged("IDNumber");
             }
@@ -224,16 +186,15 @@ namespace formular.ViewModels
             }
             set
             {
-                if (gender == value)
-                    return;
                 gender = value;
+                Person.Gender = gender;
                 RaisePropertyChanged("Gender");
             }
         }
 
-        private RelayCommand<int> selectGenderCommand;
+        private RelayCommand<object> selectGenderCommand;
 
-        public RelayCommand<int> SelectGenderCommand
+        public RelayCommand<object> SelectGenderCommand
         {
             get
             {
@@ -280,10 +241,10 @@ namespace formular.ViewModels
         {
             SendCommand = new RelayCommand(ValidateForm, true);
             GoBackCommand = new RelayCommand(NavigateBack, true);
-            SelectGenderCommand = new RelayCommand<int>(SetGender, true);
+            SelectGenderCommand = new RelayCommand<object>(SetGender, true);
         }
 
-        private void ValidateForm()
+        public void ValidateForm()
         {
             ErrorMessage = "";
       
@@ -305,20 +266,38 @@ namespace formular.ViewModels
             }
         }
 
-        private void AddData()
+        public void AddData()
         {
             API api = new API();
             api.InsertData(Person);
         }
 
-        private void NavigateBack()
+        public void NavigateBack()
         {
             NavigationServiceSingleton.GetNavigationService().NavigateBack();
         }
 
-        private void SetGender(int type)
+        public void SetGender(object parameter)
         {
-        }
+            if (parameter != null)
+            {
+                switch (int.Parse((string)parameter))
+                {
+                    case 0:
+                        Gender = Gender.Male;
+                        break;
+                    case 1:
+                        Gender = Gender.Female;
+                        break;
+                    case 2:
+                        Gender = Gender.Other;
+                        break;
+                    default:
+                        Gender = Gender.Undefined;
+                        break;
 
+                }
+            }
+        }
     }
 }

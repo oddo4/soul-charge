@@ -9,7 +9,7 @@
       d:DesignHeight="350" d:DesignWidth="525"
       Title="FormPage">
     <Page.Resources>
-        <vm:ViewModelFormPage x:Key="GenderConvert" />
+        <vm:ViewModelFormPage x:Key="vm" />
     </Page.Resources>
     
     <Grid Background="White">
@@ -88,11 +88,11 @@
                     </DatePicker.Style>
                 </DatePicker>
             </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="0,5" HorizontalAlignment="Center">
+            <StackPanel Orientation="Horizontal" Margin="0,5" HorizontalAlignment="Center" DataContext="{Binding Source={StaticResource vm}}">
                 <Label Content="Pohlaví:" HorizontalContentAlignment="Right" Height="25" Width="100"/>
-                <RadioButton IsChecked="{Binding Gender, Converter={StaticResource GenderConvert}, ConverterParameter=0}" Content="Muž" Margin="5,5"/>
-                <RadioButton Command="{Binding SelectedGenderCommand}" CommandParameter="1" Content="Žena" Margin="5,5"/>
-                <RadioButton Command="{Binding SelectedGenderCommand}" CommandParameter="2" Content="Jiné" Margin="5,5"/>
+                <RadioButton Command="{Binding Path=SelectGenderCommand}" CommandParameter="0" Content="Muž" Margin="5,5"/>
+                <RadioButton Command="{Binding Path=SelectGenderCommand}" CommandParameter="1"  Content="Žena" Margin="5,5"/>
+                <RadioButton Command="{Binding Path=SelectGenderCommand}" CommandParameter="2"  Content="Jiné" Margin="5,5"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="0,5" HorizontalAlignment="Center">
                 <Button Content="Odeslat" Width="70" Command="{Binding SendCommand}"/>
