@@ -177,20 +177,20 @@ namespace formular.ViewModels
             }
         }
 
-        private Gender gender = Gender.Undefined;
-        public Gender Gender
-        {
-            get
-            {
-                return gender;
-            }
-            set
-            {
-                gender = value;
-                Person.Gender = gender;
-                RaisePropertyChanged("Gender");
-            }
-        }
+        //private Gender gender = Gender.Undefined;
+        //public Gender Gender
+        //{
+        //    get
+        //    {
+        //        return gender;
+        //    }
+        //    set
+        //    {
+        //        gender = value;
+        //        Person.Gender = gender;
+        //        RaisePropertyChanged("Gender");
+        //    }
+        //}
 
         private RelayCommand<object> selectGenderCommand;
 
@@ -268,6 +268,7 @@ namespace formular.ViewModels
 
         public void AddData()
         {
+            Debug.WriteLine(Person.Gender);
             API api = new API();
             api.InsertData(Person);
         }
@@ -284,20 +285,20 @@ namespace formular.ViewModels
                 switch (int.Parse((string)parameter))
                 {
                     case 0:
-                        Gender = Gender.Male;
+                        Person.Gender = Gender.Male;
                         break;
                     case 1:
-                        Gender = Gender.Female;
+                        Person.Gender = Gender.Female;
                         break;
                     case 2:
-                        Gender = Gender.Other;
+                        Person.Gender = Gender.Other;
                         break;
                     default:
-                        Gender = Gender.Undefined;
+                        Person.Gender = Gender.Undefined;
                         break;
-
                 }
             }
+            Debug.WriteLine(Person.Gender);
         }
     }
 }
