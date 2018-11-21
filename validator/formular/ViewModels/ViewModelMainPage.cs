@@ -67,7 +67,7 @@ namespace formular.ViewModels
             switch (int.Parse((string)type))
             {
                 case 0:
-                    NavigationServiceSingleton.GetNavigationService().NavigateToPage(new ShowPage());
+                    NavigationServiceSingleton.GetNavigationService().NavigateToPage(new ShowItemsPage());
                     break;
                 case 1:
                     NavigationServiceSingleton.GetNavigationService().NavigateToPage(new FormPage());

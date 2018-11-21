@@ -146,64 +146,34 @@ namespace formular.ViewModels
                 RaisePropertyChanged("BoolDate");
             }
         }
-        private string idNumber;
+        private string email;
 
-        public string IDNumber
+        public string Email
         {
             get
             {
-                return idNumber;
+                return email;
             }
             set
             {
-                idNumber = value;
-                Person.IDNumber = idNumber;
-                BoolIDNumber = !ValidationExtensions.Validate(validator, Person, "IDNumber").IsValid;
-                RaisePropertyChanged("IDNumber");
+                email = value;
+                Person.Email = email;
+                BoolEmail = !ValidationExtensions.Validate(validator, Person, "Email").IsValid;
+                RaisePropertyChanged("Email");
             }
         }
-        private bool boolIDNumber = false;
+        private bool boolEmail = false;
 
-        public bool BoolIDNumber
+        public bool BoolEmail
         {
             get
             {
-                return boolIDNumber;
+                return boolEmail;
             }
             set
             {
-                boolIDNumber = value;
-                RaisePropertyChanged("BoolIDNumber");
-            }
-        }
-
-        //private Gender gender = Gender.Undefined;
-        //public Gender Gender
-        //{
-        //    get
-        //    {
-        //        return gender;
-        //    }
-        //    set
-        //    {
-        //        gender = value;
-        //        Person.Gender = gender;
-        //        RaisePropertyChanged("Gender");
-        //    }
-        //}
-
-        private RelayCommand<object> selectGenderCommand;
-
-        public RelayCommand<object> SelectGenderCommand
-        {
-            get
-            {
-                return selectGenderCommand;
-            }
-            set
-            {
-                selectGenderCommand = value;
-                RaisePropertyChanged("SelectGenderCommand");
+                boolEmail = value;
+                RaisePropertyChanged("BoolEmail");
             }
         }
 
@@ -241,7 +211,6 @@ namespace formular.ViewModels
         {
             SendCommand = new RelayCommand(ValidateForm, true);
             GoBackCommand = new RelayCommand(NavigateBack, true);
-            SelectGenderCommand = new RelayCommand<object>(SetGender, true);
         }
 
         public void ValidateForm()
@@ -268,37 +237,13 @@ namespace formular.ViewModels
 
         public void AddData()
         {
-            Debug.WriteLine(Person.Gender);
             API api = new API();
-            api.InsertData(Person);
+            api.InsertPersonData(Person);
         }
 
         public void NavigateBack()
         {
             NavigationServiceSingleton.GetNavigationService().NavigateBack();
-        }
-
-        public void SetGender(object parameter)
-        {
-            if (parameter != null)
-            {
-                switch (int.Parse((string)parameter))
-                {
-                    case 0:
-                        Person.Gender = Gender.Male;
-                        break;
-                    case 1:
-                        Person.Gender = Gender.Female;
-                        break;
-                    case 2:
-                        Person.Gender = Gender.Other;
-                        break;
-                    default:
-                        Person.Gender = Gender.Undefined;
-                        break;
-                }
-            }
-            Debug.WriteLine(Person.Gender);
         }
     }
 }

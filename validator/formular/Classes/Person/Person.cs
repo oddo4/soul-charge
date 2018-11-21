@@ -9,9 +9,11 @@ namespace formular.Classes
 {
     class Person
     {
+        public int ID { get; set; }
         public string Firstname { get; set; }
         public string Surname { get; set; }
-        public string IDNumber { get; set; }
+        public string Email { get; set; }
+        public string PhoneNumber { get; set; }
         public DateTime DateOfBirth { get; set; }
 
         public string DateString
@@ -22,17 +24,15 @@ namespace formular.Classes
             }
         }
 
-        public Gender Gender { get; set; }
-
         public List<KeyValuePair<string, string>> CreateKeyValues()
         {
             var list = new List<KeyValuePair<string, string>>();
 
             list.Add(new KeyValuePair<string, string>("Firstname", Firstname));
             list.Add(new KeyValuePair<string, string>("Surname", Surname));
-            list.Add(new KeyValuePair<string, string>("IDNumber", IDNumber));
+            list.Add(new KeyValuePair<string, string>("PhoneNumber", PhoneNumber));
+            list.Add(new KeyValuePair<string, string>("Email", Email));
             list.Add(new KeyValuePair<string, string>("DateOfBirth", DateOfBirth.ToString("yyyy'-'MM'-'dd")));
-            list.Add(new KeyValuePair<string, string>("Gender", Gender.ToString()));
 
             return list;
         }

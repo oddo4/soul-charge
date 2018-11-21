@@ -13,11 +13,8 @@ namespace formular.Classes
         {
             RuleFor(person => person.Firstname).NotEmpty().WithMessage("Prázdné jméno.");
             RuleFor(person => person.Surname).NotEmpty().WithMessage("Prázdné příjmení.");
-            /*RuleFor(person => person.Date).NotEmpty().WithMessage("Prázdný datum.");
             RuleFor(person => person.Email).NotEmpty().WithMessage("Prázdný e-mail.");
-            RuleFor(person => person.Email).EmailAddress().WithMessage("Špatný formát e-mailu.");*/
+            RuleFor(person => person.Email).EmailAddress().WithMessage("Špatný formát e-mailu.");
         }
-
-
     }
 }

@@ -139,9 +139,11 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Classes\API.cs" />
-    <Compile Include="Classes\NavigationServiceSingleton.cs" />
-    <Compile Include="Classes\Person.cs" />
-    <Compile Include="Classes\PersonValidator.cs" />
+    <Compile Include="Classes\Item.cs" />
+    <Compile Include="Classes\Order.cs" />
+    <Compile Include="Classes\Singletons\NavigationServiceSingleton.cs" />
+    <Compile Include="Classes\Person\Person.cs" />
+    <Compile Include="Classes\Validators\PersonValidator.cs" />
     <Compile Include="Classes\ValidationExtensions.cs" />
     <Compile Include="Pages\DeletePage.xaml.cs">
       <DependentUpon>DeletePage.xaml</DependentUpon>
@@ -149,8 +151,8 @@
     <Compile Include="Pages\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\ShowPage.xaml.cs">
-      <DependentUpon>ShowPage.xaml</DependentUpon>
+    <Compile Include="Pages\ShowItemsPage.xaml.cs">
+      <DependentUpon>ShowItemsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\ViewModelDeletePage.cs" />
     <Compile Include="ViewModels\ViewModelFormPage.cs" />
@@ -183,7 +185,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\ShowPage.xaml">
+    <Page Include="Pages\ShowItemsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

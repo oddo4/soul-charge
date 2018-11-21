@@ -97,10 +97,10 @@ namespace formular.ViewModels
         private async void ShowDataInListView()
         {
             API api = new API();
-            var result = await api.GetPostsJsonTask("");
-            var c = await api.ParsePostJsonTask(result);
+            //var result = await api.GetPostsJsonTask("");
+            //var c = await api.ParsePostJsonTask(result);
 
-            ResultData = c;
+            //ResultData = c;
         }
         private async void DeleteData()
         {

@@ -19,12 +19,12 @@ namespace formular.Pages
     /// <summary>
     /// Interakční logika pro ShowPage.xaml
     /// </summary>
-    public partial class ShowPage : Page
+    public partial class ShowItemsPage : Page
     {
-        public ShowPage()
+        public ShowItemsPage()
         {
             InitializeComponent();
-            this.DataContext = new ViewModelShowPage();
+            this.DataContext = new ViewModelShowItemsPage();
         }
     }
 }
