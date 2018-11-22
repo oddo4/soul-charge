@@ -225,7 +225,6 @@ namespace formular.ViewModels
 
                 ErrorMessage = "Odesláno.";
                 SendNotice = Visibility.Visible;
-
             }
             else
             {

@@ -4,6 +4,7 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,19 @@ namespace formular.ViewModels
     class ViewModelShowItemsPage : ViewModelBase
     {
         public PersonValidator validator = new PersonValidator();
+        private Person person;
+        public Person Person
+        {
+            get
+            {
+                return person;
+            }
+            set
+            {
+                person = value;
+                RaisePropertyChanged("Person");
+            }
+        }
         private Visibility sendNotice = Visibility.Hidden;
 
         public Visibility SendNotice
@@ -42,9 +56,9 @@ namespace formular.ViewModels
                 RaisePropertyChanged("ErrorMessage");
             }
         }
-        private List<Item> itemsData;
+        private ObservableCollection<Item> itemsData = new ObservableCollection<Item>();
 
-        public List<Item> ItemsData
+        public ObservableCollection<Item> ItemsData
         {
             get
             {
@@ -56,9 +70,9 @@ namespace formular.ViewModels
                 RaisePropertyChanged("ItemsData");
             }
         }
-        private List<Item> orderListData;
+        private ObservableCollection<Item> orderListData = new ObservableCollection<Item>();
 
-        public List<Item> OrderListData
+        public ObservableCollection<Item> OrderListData
         {
             get
             {
@@ -84,23 +98,23 @@ namespace formular.ViewModels
                 RaisePropertyChanged("SelectedItemToAdd");
             }
         }
-        private Item selectedItemToRemove;
+        private int selectedIndexToRemove;
 
-        public Item SelectedItemToRemove
+        public int SelectedIndexToRemove
         {
             get
             {
-                return selectedItemToRemove;
+                return selectedIndexToRemove;
             }
             set
             {
-                selectedItemToRemove = value;
-                RaisePropertyChanged("SelectedItemToRemove");
+                selectedIndexToRemove = value;
+                RaisePropertyChanged("SelectedIndexToRemove");
             }
         }
-        private RelayCommand<bool> moveItemCommand;
+        private RelayCommand<object> moveItemCommand;
 
-        public RelayCommand<bool> MoveItemCommand
+        public RelayCommand<object> MoveItemCommand
         {
             get
             {
@@ -146,32 +160,45 @@ namespace formular.ViewModels
         {
             SendCommand = new RelayCommand(ValidateForm, true);
             GoBackCommand = new RelayCommand(NavigateBack, true);
-            MoveItemCommand = new RelayCommand<bool>(MoveItem, true);
-            ShowItemsDataInListView();
+            MoveItemCommand = new RelayCommand<object>(MoveItem, true);
+            GetDataFromAPI();
         }
 
-        public void MoveItem(bool option)
+        public void MoveItem(object param)
         {
+            var option = int.Parse(param.ToString());
+
             switch(option)
             {
-                case true:
-                    OrderListData.Add(SelectedItemToAdd);
+                case 1:
+                    if (SelectedItemToAdd != null)
+                        OrderListData.Add(SelectedItemToAdd);
                     break;
-                case false:
-                    OrderListData.Remove(SelectedItemToRemove);
+                case 0:
+                    if (SelectedIndexToRemove != -1)
+                        OrderListData.RemoveAt(SelectedIndexToRemove);
+                    SelectedIndexToRemove = -1;
                     break;
                 default:
                     break;
             }
         }
 
-        private async void ShowItemsDataInListView()
+        private async void GetDataFromAPI()
         {
             API api = new API();
             var result = await api.GetAllJsonTask("Item");
             var c = await api.ParseJsonTask(result);
 
-            ItemsData = c;
+            foreach (Item item in c)
+            {
+                ItemsData.Add(item);
+            }
+
+            var personResult = await api.GetAllJsonTask("Person", 1);
+            var p = await api.ParsePersonJsonTask(personResult);
+
+            Person = p.FirstOrDefault();
         }
 
         public void ValidateForm()
@@ -194,7 +221,25 @@ namespace formular.ViewModels
         public void AddData()
         {
             API api = new API();
-            api.InsertOrderData(OrderListData);
+
+            Order newOrder = new Order() { Person_ID = Person.ID };
+
+            api.InsertData(newOrder.CreateKeyValues(), "Order");
+
+            //api.InsertOrderData();
+        }
+
+        public List<KeyValuePair<string, string>> CreateKeyValues()
+        {
+            List<KeyValuePair<string, string>> keyValues = new List<KeyValuePair<string, string>>();
+
+            //foreach (Item item in OrderListData)
+            //{
+            //    keyValues.Add(new KeyValuePair<string, string>("Order_ID", ));
+            //    keyValues.Add(new KeyValuePair<string, string>("Item_ID", item.ID.ToString());
+            //}
+
+            return keyValues;
         }
 
         public void NavigateBack()

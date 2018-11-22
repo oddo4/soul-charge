@@ -9,6 +9,7 @@ namespace formular.Classes
     public class Order
     {
         public int ID { get; set; }
+        public int Person_ID { get; set; }
         public DateTime Date { get; set; }
         public string DateString
         {
@@ -16,6 +17,16 @@ namespace formular.Classes
             {
                 return Date.ToString("dd'. 'MM'. 'yyyy");
             }
+        }
+
+        public List<KeyValuePair<string, string>> CreateKeyValues()
+        {
+            var list = new List<KeyValuePair<string, string>>();
+
+            list.Add(new KeyValuePair<string, string>("Table", "Order"));
+            list.Add(new KeyValuePair<string, string>("Person_ID", Person_ID.ToString()));
+
+            return list;
         }
     }
 }

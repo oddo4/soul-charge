@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -14,9 +15,15 @@ namespace formular.Classes
         private string defaultUrl = "https://student.sps-prosek.cz/~bounlfi15/evidence/api.php";
         private string tablPrefix = "ObS";
 
-        public async Task<string> GetAllJsonTask(string tbl)
+        public async Task<string> GetAllJsonTask(string tbl, int id = -1)
         {
-            var uri = new Uri(defaultUrl + "?tbl=" + tablPrefix + tbl);
+            var stringID = "";
+            if (id != -1)
+            {
+                stringID = "&id=" + id;
+            }
+
+            var uri = new Uri(defaultUrl + "?tbl=" + tablPrefix + tbl + stringID);
 
             string content = await Task.Run(async () =>
             {
@@ -41,7 +48,7 @@ namespace formular.Classes
 
         public async void InsertPersonData(Person newPerson)
         {
-            var request = new HttpRequestMessage(HttpMethod.Post, "https://student.sps-prosek.cz/~bounlfi15/evidence/api.php");
+            var request = new HttpRequestMessage(HttpMethod.Post, defaultUrl + "?tbl=" + tablPrefix + "Person");
 
             var keyValues = new List<KeyValuePair<string, string>>();
 
@@ -57,13 +64,9 @@ namespace formular.Classes
             });
         }
 
-        public async void InsertOrderData(List<Item> orderListData)
+        public async void InsertData(List<KeyValuePair<string, string>> keyValues, string tbl)
         {
-            var request = new HttpRequestMessage(HttpMethod.Post, "https://student.sps-prosek.cz/~bounlfi15/evidence/api.php");
-
-            var keyValues = new List<KeyValuePair<string, string>>();
-
-            //keyValues = newPerson.CreateKeyValues();
+            var request = new HttpRequestMessage(HttpMethod.Post, defaultUrl + "?tbl=" + tablPrefix + tbl);
 
             request.Content = new FormUrlEncodedContent(keyValues);
 
@@ -92,10 +95,15 @@ namespace formular.Classes
         //    });
         //}
 
+
+        public async Task<List<Person>> ParsePersonJsonTask(string json)
+        {
+            return await Task.Run(() => JsonConvert.DeserializeObject<List<Person>>(json));
+        }
+
         public async Task<List<Item>> ParseJsonTask(string json)
         {
             return await Task.Run(() => JsonConvert.DeserializeObject<List<Item>>(json));
-
         }
     }
 }
