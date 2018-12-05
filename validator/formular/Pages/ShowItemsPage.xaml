@@ -11,6 +11,7 @@
     <Grid>
         <Button Content="Zrušit" Width="50" Height="20" Margin="5,5" HorizontalAlignment="Left" VerticalAlignment="Top" Command="{Binding GoBackCommand}"/>
         <Label Content="{Binding Person.Firstname}" Margin="5,5" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+        <TextBlock Text="{Binding ErrorMessage}" Visibility="{Binding SendNotice}" TextWrapping="Wrap" Width="250" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Top"/>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
             <StackPanel VerticalAlignment="Center" Margin="10,0">
                 <Label Content="Produkty" HorizontalAlignment="Center" FontWeight="Bold"/>

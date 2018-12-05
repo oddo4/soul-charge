@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -104,6 +105,11 @@ namespace formular.Classes
         public async Task<List<Item>> ParseJsonTask(string json)
         {
             return await Task.Run(() => JsonConvert.DeserializeObject<List<Item>>(json));
+        }
+
+        public async Task<List<Order>> ParseOrderJsonTask(string json)
+        {
+            return await Task.Run(() => JsonConvert.DeserializeObject<List<Order>>(json));
         }
     }
 }

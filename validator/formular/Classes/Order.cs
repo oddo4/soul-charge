@@ -10,13 +10,10 @@ namespace formular.Classes
     {
         public int ID { get; set; }
         public int Person_ID { get; set; }
-        public DateTime Date { get; set; }
-        public string DateString
+        public string Date
         {
-            get
-            {
-                return Date.ToString("dd'. 'MM'. 'yyyy");
-            }
+            get;
+            set;
         }
 
         public List<KeyValuePair<string, string>> CreateKeyValues()

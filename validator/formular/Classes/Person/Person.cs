@@ -14,14 +14,11 @@ namespace formular.Classes
         public string Surname { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
-        public DateTime DateOfBirth { get; set; }
 
-        public string DateString
+        public string DateOfBirth
         {
-            get
-            {
-                return DateOfBirth.ToString("dd'. 'MM'. 'yyyy");
-            }
+            get;
+            set;
         }
 
         public List<KeyValuePair<string, string>> CreateKeyValues()
@@ -32,7 +29,7 @@ namespace formular.Classes
             list.Add(new KeyValuePair<string, string>("Surname", Surname));
             list.Add(new KeyValuePair<string, string>("PhoneNumber", PhoneNumber));
             list.Add(new KeyValuePair<string, string>("Email", Email));
-            list.Add(new KeyValuePair<string, string>("DateOfBirth", DateOfBirth.ToString("yyyy'-'MM'-'dd")));
+            list.Add(new KeyValuePair<string, string>("DateOfBirth", DateOfBirth));
 
             return list;
         }

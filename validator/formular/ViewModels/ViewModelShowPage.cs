@@ -5,6 +5,7 @@ using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -218,26 +219,32 @@ namespace formular.ViewModels
                 SendNotice = Visibility.Visible;
             }
         }
-        public void AddData()
+        public async void AddData()
         {
             API api = new API();
 
             Order newOrder = new Order() { Person_ID = Person.ID };
 
+            Debug.WriteLine(DateTime.Now);
+
             api.InsertData(newOrder.CreateKeyValues(), "Order");
 
-            //api.InsertOrderData();
+            var orderResult = await api.GetAllJsonTask("Order");
+            var o = (await api.ParseOrderJsonTask(orderResult)).Last();
+
+            foreach (Item item in OrderListData)
+            {
+                api.InsertData(CreateKeyValues(item, o), "OrderItems");
+            }
         }
 
-        public List<KeyValuePair<string, string>> CreateKeyValues()
+        public List<KeyValuePair<string, string>> CreateKeyValues(Item item, Order order)
         {
             List<KeyValuePair<string, string>> keyValues = new List<KeyValuePair<string, string>>();
 
-            //foreach (Item item in OrderListData)
-            //{
-            //    keyValues.Add(new KeyValuePair<string, string>("Order_ID", ));
-            //    keyValues.Add(new KeyValuePair<string, string>("Item_ID", item.ID.ToString());
-            //}
+            keyValues.Add(new KeyValuePair<string, string>("Table", "OrderItems"));
+            keyValues.Add(new KeyValuePair<string, string>("Order_ID", order.ID.ToString()));
+            keyValues.Add(new KeyValuePair<string, string>("Item_ID", item.ID.ToString()));
 
             return keyValues;
         }
