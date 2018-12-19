@@ -26,7 +26,7 @@ namespace formular
         {
             InitializeComponent();
             NavigationServiceSingleton.CreateNavigationService(MainFrame);
-            NavigationServiceSingleton.GetNavigationService().NavigateToPage(new MainPage());
+            NavigationServiceSingleton.GetNavigationService().NavigateToPage(new FormPage());
         }
     }
 }

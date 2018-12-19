@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace formular.Classes
 {
-    class Person
+    public class Person
     {
         public int ID { get; set; }
         public string Firstname { get; set; }

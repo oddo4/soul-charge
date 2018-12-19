@@ -15,18 +15,18 @@
     <Grid Background="White">
         <Button Content="Zpět" Width="50" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" Command="{Binding GoBackCommand}"/>
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Label Content="Přidávání dat" HorizontalAlignment="Center" FontWeight="Bold"/>
-            <StackPanel Orientation="Horizontal" Margin="0,5" HorizontalAlignment="Center">
-                <Label Content="Jméno:" HorizontalContentAlignment="Right" Height="25" Width="100"/>
-                <TextBox Height="25" Width="150" Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}">
+            <Label Content="Přihlášení" HorizontalAlignment="Center" FontWeight="Bold"/>
+            <StackPanel Orientation="Vertical" Margin="0,5" HorizontalAlignment="Center">
+                <Label Content="Přihlašovací jméno:" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Height="25" Width="120"/>
+                <TextBox Height="25" Width="150" Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}">
                     <TextBox.Style>
                         <Style TargetType="TextBox">
                             <Setter Property="Background" Value="White"/>
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding BoolFirstName}" Value="True">
+                                <DataTrigger Binding="{Binding BoolUsername}" Value="True">
                                     <Setter Property="Background" Value="Red"/>
                                 </DataTrigger>
-                                <DataTrigger Binding="{Binding BoolFirstName}" Value="False">
+                                <DataTrigger Binding="{Binding BoolUsername}" Value="False">
                                     <Setter Property="Background" Value="White"/>
                                 </DataTrigger>
                             </Style.Triggers>
@@ -34,59 +34,23 @@
                     </TextBox.Style>
                 </TextBox>
             </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="0,5" HorizontalAlignment="Center">
-                <Label Content="Příjmení:" HorizontalContentAlignment="Right" Height="25" Width="100"/>
-                <TextBox Height="25" Width="150" Text="{Binding SurName, UpdateSourceTrigger=PropertyChanged}">
+            <StackPanel Orientation="Vertical" Margin="0,5" HorizontalAlignment="Center">
+                <Label Content="Heslo:" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Height="25" Width="120"/>
+                <TextBox Height="25" Width="150" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}">
                     <TextBox.Style>
                         <Style TargetType="TextBox">
                             <Setter Property="Background" Value="White"/>
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding BoolSurName}" Value="True">
+                                <DataTrigger Binding="{Binding BoolPassword}" Value="True">
                                     <Setter Property="Background" Value="Red"/>
                                 </DataTrigger>
-                                <DataTrigger Binding="{Binding BoolSurName}" Value="False">
+                                <DataTrigger Binding="{Binding BoolPassword}" Value="False">
                                     <Setter Property="Background" Value="White"/>
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>
                     </TextBox.Style>
                 </TextBox>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="0,5" HorizontalAlignment="Center">
-                <Label Content="E-mail:" HorizontalContentAlignment="Right" Height="25" Width="100"/>
-                <TextBox Height="25" Width="150" Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}">
-                    <TextBox.Style>
-                        <Style TargetType="TextBox">
-                            <Setter Property="Background" Value="White"/>
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding BoolEmail}" Value="True">
-                                    <Setter Property="Background" Value="Red"/>
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding BoolEmail}" Value="False">
-                                    <Setter Property="Background" Value="White"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </TextBox.Style>
-                </TextBox>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="0,5" HorizontalAlignment="Center">
-                <Label Content="Datum narození:" HorizontalContentAlignment="Right" Height="25" Width="100"/>
-                <DatePicker Height="25" Width="150" SelectedDate="{Binding Date, UpdateSourceTrigger=PropertyChanged}">
-                    <DatePicker.Style>
-                        <Style TargetType="DatePicker">
-                            <Setter Property="Background" Value="White"/>
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding BoolDate}" Value="True">
-                                    <Setter Property="Background" Value="Red"/>
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding BoolDate}" Value="False">
-                                    <Setter Property="Background" Value="White"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </DatePicker.Style>
-                </DatePicker>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="0,5" HorizontalAlignment="Center">
                 <Button Content="Odeslat" Width="70" Command="{Binding SendCommand}"/>

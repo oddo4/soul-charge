@@ -70,10 +70,10 @@ namespace formular.ViewModels
                     NavigationServiceSingleton.GetNavigationService().NavigateToPage(new ShowItemsPage());
                     break;
                 case 1:
-                    NavigationServiceSingleton.GetNavigationService().NavigateToPage(new FormPage());
+                    //NavigationServiceSingleton.GetNavigationService().NavigateToPage(new FormPage());
                     break;
                 case 2:
-                    NavigationServiceSingleton.GetNavigationService().NavigateToPage(new DeletePage());
+                    NavigationServiceSingleton.GetNavigationService().NavigateToPage(new AccountPage());
                     break;
                 default:
                     break;

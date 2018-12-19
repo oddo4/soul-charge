@@ -1,5 +1,6 @@
 ﻿using FluentValidation.Results;
 using formular.Classes;
+using formular.Pages;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using System;
@@ -24,7 +25,6 @@ namespace formular.ViewModels
     }
     class ViewModelFormPage : ViewModelBase
     {
-        public Person Person = new Person();
         public PersonValidator validator = new PersonValidator();
 
         private Visibility sendNotice = Visibility.Hidden;
@@ -55,125 +55,60 @@ namespace formular.ViewModels
                 RaisePropertyChanged("ErrorMessage");
             }
         }
-        private string firstName;
+        private string username;
 
-        public string FirstName
+        public string Username
         {
             get
             {
-                return firstName;
+                return username;
             }
             set
             {
-                firstName = value;
-                Person.Firstname = firstName;
-                BoolFirstName = !ValidationExtensions.Validate(validator, Person, "Firstname").IsValid;
-                RaisePropertyChanged("FirstName");
+                username = value;
+                RaisePropertyChanged("Username");
             }
         }
-        private bool boolFirstName = false;
+        private bool boolUsername = false;
 
-        public bool BoolFirstName
+        public bool BoolUsername
         {
             get
             {
-                return boolFirstName;
+                return boolUsername;
             }
             set
             {
-                boolFirstName = value;
-                RaisePropertyChanged("BoolFirstName");
+                boolUsername = value;
+                RaisePropertyChanged("BoolUsername");
             }
         }
-        private string surName;
+        private string password;
 
-        public string SurName
+        public string Password
         {
             get
             {
-                return surName;
+                return password;
             }
             set
             {
-                surName = value;
-                Person.Surname = surName;
-                BoolSurName = !ValidationExtensions.Validate(validator, Person, "Surname").IsValid;
-                RaisePropertyChanged("SurName");
+                password = value;
+                RaisePropertyChanged("Password");
             }
         }
-        private bool boolSurName = false;
+        private bool boolPassword = false;
 
-        public bool BoolSurName
+        public bool BoolPassword
         {
             get
             {
-                return boolSurName;
+                return boolPassword;
             }
             set
             {
-                boolSurName = value;
-                RaisePropertyChanged("BoolSurName");
-            }
-        }
-
-        private DateTime date;
-
-        public DateTime Date
-        {
-            get
-            {
-                return date;
-            }
-            set
-            {
-                date = value;
-                Person.DateOfBirth = date;
-                BoolDate = !ValidationExtensions.Validate(validator, Person, "Date").IsValid;
-                RaisePropertyChanged("Date");
-            }
-        }
-        private bool boolDate = false;
-
-        public bool BoolDate
-        {
-            get
-            {
-                return boolDate;
-            }
-            set
-            {
-                boolDate = value;
-                RaisePropertyChanged("BoolDate");
-            }
-        }
-        private string email;
-
-        public string Email
-        {
-            get
-            {
-                return email;
-            }
-            set
-            {
-                email = value;
-                Person.Email = email;
-                BoolEmail = !ValidationExtensions.Validate(validator, Person, "Email").IsValid;
-                RaisePropertyChanged("Email");
-            }
-        }
-        private bool boolEmail = false;
-
-        public bool BoolEmail
-        {
-            get
-            {
-                return boolEmail;
-            }
-            set
-            {
-                boolEmail = value;
-                RaisePropertyChanged("BoolEmail");
+                boolPassword = value;
+                RaisePropertyChanged("BoolPassword");
             }
         }
 
@@ -209,35 +144,70 @@ namespace formular.ViewModels
 
         public ViewModelFormPage()
         {
-            SendCommand = new RelayCommand(ValidateForm, true);
+            SendCommand = new RelayCommand(AddData, true);
             GoBackCommand = new RelayCommand(NavigateBack, true);
         }
 
         public void ValidateForm()
         {
             ErrorMessage = "";
-      
-            ValidationResult results = validator.Validate(Person);
 
-            if (results.IsValid)
+            //ValidationResult results = validator.Validate(Person);
+
+            //if (results.IsValid)
+            //{
+            //    AddData();
+
+            //    ErrorMessage = "Odesláno.";
+            //    SendNotice = Visibility.Visible;
+            //}
+            //else
+            //{
+            //    foreach (ValidationFailure error in results.Errors)
+            //        ErrorMessage += error.ErrorMessage + " ";
+            //    SendNotice = Visibility.Visible;
+            //}
+        }
+
+        public async void AddData()
+        {
+            API api = new API();
+            var loginResult = await api.GetPostData(CreateKeyValues(new Login() { Username = Username, Password = Password }), "Person");
+            var loginData = await api.ParseJsonTask<Login>(loginResult);
+
+            if (loginData.Count == 1)
             {
-                AddData();
+                var login = loginData.FirstOrDefault();
+                var personResult = await api.GetPostData(CreateKeyValues(login, false), "PersonData");
+                var personData = await api.ParseJsonTask<Person>(personResult);
 
-                ErrorMessage = "Odesláno.";
-                SendNotice = Visibility.Visible;
+                App.User = personData.FirstOrDefault();
+
+                NavigationServiceSingleton.GetNavigationService().NavigateToPage(new MainPage());
+            }
+
+            //api.InsertPersonData(Person);
+        }
+
+        public List<KeyValuePair<string, string>> CreateKeyValues(Login loginData, bool login = true)
+        {
+            List<KeyValuePair<string, string>> keyValues = new List<KeyValuePair<string, string>>();
+
+            keyValues.Add(new KeyValuePair<string, string>("Method", "Get"));
+            if (login)
+            {
+                keyValues.Add(new KeyValuePair<string, string>("Table", "Person"));
+                keyValues.Add(new KeyValuePair<string, string>("User", loginData.Username));
+                keyValues.Add(new KeyValuePair<string, string>("Pass", loginData.Password));
             }
             else
             {
-                foreach (ValidationFailure error in results.Errors)
-                    ErrorMessage += error.ErrorMessage + " ";
-                SendNotice = Visibility.Visible;
+                keyValues.Add(new KeyValuePair<string, string>("Table", "PersonData"));
+                keyValues.Add(new KeyValuePair<string, string>("Person_ID", loginData.ID.ToString()));
             }
-        }
+            
 
-        public void AddData()
-        {
-            API api = new API();
-            api.InsertPersonData(Person);
+            return keyValues;
         }
 
         public void NavigateBack()

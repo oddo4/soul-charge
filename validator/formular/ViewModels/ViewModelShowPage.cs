@@ -189,15 +189,15 @@ namespace formular.ViewModels
         {
             API api = new API();
             var result = await api.GetAllJsonTask("Item");
-            var c = await api.ParseJsonTask(result);
+            var c = await api.ParseJsonTask<Item>(result);
 
             foreach (Item item in c)
             {
                 ItemsData.Add(item);
             }
 
-            var personResult = await api.GetAllJsonTask("Person", 1);
-            var p = await api.ParsePersonJsonTask(personResult);
+            var personResult = await api.GetAllJsonTask("Person", "&id=" + App.User.ID);
+            var p = await api.ParseJsonTask<Person>(personResult);
 
             Person = p.FirstOrDefault();
         }

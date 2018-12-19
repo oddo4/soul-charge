@@ -140,13 +140,14 @@
     </ApplicationDefinition>
     <Compile Include="Classes\API.cs" />
     <Compile Include="Classes\Item.cs" />
+    <Compile Include="Classes\Person\Login.cs" />
     <Compile Include="Classes\Order.cs" />
     <Compile Include="Classes\Singletons\NavigationServiceSingleton.cs" />
     <Compile Include="Classes\Person\Person.cs" />
     <Compile Include="Classes\Validators\PersonValidator.cs" />
     <Compile Include="Classes\ValidationExtensions.cs" />
-    <Compile Include="Pages\DeletePage.xaml.cs">
-      <DependentUpon>DeletePage.xaml</DependentUpon>
+    <Compile Include="Pages\AccountPage.xaml.cs">
+      <DependentUpon>AccountPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -154,11 +155,11 @@
     <Compile Include="Pages\ShowItemsPage.xaml.cs">
       <DependentUpon>ShowItemsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\ViewModelDeletePage.cs" />
+    <Compile Include="ViewModels\ViewModelAccountPage.cs" />
     <Compile Include="ViewModels\ViewModelFormPage.cs" />
     <Compile Include="ViewModels\ViewModelMainPage.cs" />
     <Compile Include="ViewModels\ViewModelShowPage.cs" />
-    <Page Include="Pages\DeletePage.xaml">
+    <Page Include="Pages\AccountPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

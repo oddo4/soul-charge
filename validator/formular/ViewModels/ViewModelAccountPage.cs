@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace formular.ViewModels
 {
-    class ViewModelDeletePage : ViewModelBase
+    class ViewModelAccountPage : ViewModelBase
     {
-        private List<Person> resultData;
+        private List<Order> resultData;
 
-        public List<Person> ResultData
+        public List<Order> ResultData
         {
             get
             {
@@ -26,33 +26,33 @@ namespace formular.ViewModels
             }
         }
 
-        private bool deleteBtnEnabled = true;
+        private bool hideBtnEnabled = true;
 
-        public bool DeleteBtnEnabled
+        public bool HideBtnEnabled
         {
             get
             {
-                return deleteBtnEnabled;
+                return hideBtnEnabled;
             }
             set
             {
-                deleteBtnEnabled = value;
-                RaisePropertyChanged("DeleteBtnEnabled");
+                hideBtnEnabled = value;
+                RaisePropertyChanged("HideBtnEnabled");
             }
         }
 
-        private RelayCommand deleteDataCommand;
+        private RelayCommand hideDataCommand;
 
-        public RelayCommand DeleteDataCommand
+        public RelayCommand HideDataCommand
         {
             get
             {
-                return deleteDataCommand;
+                return hideDataCommand;
             }
             set
             {
-                deleteDataCommand = value;
-                RaisePropertyChanged("DeleteDataCommand");
+                hideDataCommand = value;
+                RaisePropertyChanged("HideDataCommand");
             }
         }
 
@@ -87,9 +87,9 @@ namespace formular.ViewModels
             }
         }
 
-        public ViewModelDeletePage()
+        public ViewModelAccountPage()
         {
-            DeleteDataCommand = new RelayCommand(DeleteData, true);
+            HideDataCommand = new RelayCommand(HideData, true);
             GoBackCommand = new RelayCommand(NavigateBack, true);
             ShowDataInListView();
         }
@@ -97,14 +97,14 @@ namespace formular.ViewModels
         private async void ShowDataInListView()
         {
             API api = new API();
-            //var result = await api.GetPostsJsonTask("");
-            //var c = await api.ParsePostJsonTask(result);
+            var result = await api.GetAllJsonTask("Order");
+            var c = await api.ParseJsonTask<Order>(result);
 
-            //ResultData = c;
+            ResultData = c;
         }
-        private async void DeleteData()
+        private async void HideData()
         {
-            API api = new API();
+            
         }
         private void NavigateBack()
         {

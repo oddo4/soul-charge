@@ -16,15 +16,9 @@ namespace formular.Classes
         private string defaultUrl = "https://student.sps-prosek.cz/~bounlfi15/evidence/api.php";
         private string tablPrefix = "ObS";
 
-        public async Task<string> GetAllJsonTask(string tbl, int id = -1)
+        public async Task<string> GetAllJsonTask(string tbl, string args = "")
         {
-            var stringID = "";
-            if (id != -1)
-            {
-                stringID = "&id=" + id;
-            }
-
-            var uri = new Uri(defaultUrl + "?tbl=" + tablPrefix + tbl + stringID);
+            var uri = new Uri(defaultUrl + "?tbl=" + tablPrefix + tbl + args);
 
             string content = await Task.Run(async () =>
             {
@@ -34,6 +28,7 @@ namespace formular.Classes
             });
             return content;
         }
+
         //public async Task<string> GetItemsAllJsonTask()
         //{
         //    var uri = new Uri(defaultUrl + "?tbl=ObSItem");
@@ -65,7 +60,7 @@ namespace formular.Classes
             });
         }
 
-        public async void InsertData(List<KeyValuePair<string, string>> keyValues, string tbl)
+        public async Task<string> GetPostData(List<KeyValuePair<string, string>> keyValues, string tbl)
         {
             var request = new HttpRequestMessage(HttpMethod.Post, defaultUrl + "?tbl=" + tablPrefix + tbl);
 
@@ -77,6 +72,24 @@ namespace formular.Classes
                 if (response.IsSuccessStatusCode) return await response.Content.ReadAsStringAsync();
                 throw new HttpRequestException("Communication with server failed");
             });
+
+            return content;
+        }
+
+        public async Task<bool> InsertData(List<KeyValuePair<string, string>> keyValues, string tbl)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Post, defaultUrl + "?tbl=" + tablPrefix + tbl);
+
+            request.Content = new FormUrlEncodedContent(keyValues);
+
+            string content = await Task.Run(async () =>
+            {
+                var response = await client.SendAsync(request);
+                if (response.IsSuccessStatusCode) return await response.Content.ReadAsStringAsync();
+                throw new HttpRequestException("Communication with server failed");
+            });
+
+            return true;
         }
         //public async void InsertOrderData(Person newPerson)
         //{
@@ -97,15 +110,15 @@ namespace formular.Classes
         //}
 
 
-        public async Task<List<Person>> ParsePersonJsonTask(string json)
+        public async Task<List<T>> ParseJsonTask<T>(string json) where T : class
         {
-            return await Task.Run(() => JsonConvert.DeserializeObject<List<Person>>(json));
+            return await Task.Run(() => JsonConvert.DeserializeObject<List<T>>(json));
         }
 
-        public async Task<List<Item>> ParseJsonTask(string json)
-        {
-            return await Task.Run(() => JsonConvert.DeserializeObject<List<Item>>(json));
-        }
+        //public async Task<List<Item>> ParseJsonTask(string json)
+        //{
+        //    return await Task.Run(() => JsonConvert.DeserializeObject<List<Item>>(json));
+        //}
 
         public async Task<List<Order>> ParseOrderJsonTask(string json)
         {

@@ -19,12 +19,12 @@ namespace formular.Pages
     /// <summary>
     /// Interakční logika pro DeletePage.xaml
     /// </summary>
-    public partial class DeletePage : Page
+    public partial class AccountPage : Page
     {
-        public DeletePage()
+        public AccountPage()
         {
             InitializeComponent();
-            this.DataContext = new ViewModelDeletePage();
+            this.DataContext = new ViewModelAccountPage();
         }
     }
 }
