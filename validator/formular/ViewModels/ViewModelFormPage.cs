@@ -172,7 +172,7 @@ namespace formular.ViewModels
         public async void AddData()
         {
             API api = new API();
-            var loginResult = await api.GetPostData(CreateKeyValues(new Login() { Username = Username, Password = Password }), "Person");
+            var loginResult = await api.GetPostData(CreateKeyValues(new Login() { Username = username, Password = password }), "Person");
             var loginData = await api.ParseJsonTask<Login>(loginResult);
 
             if (loginData.Count == 1)
@@ -197,15 +197,14 @@ namespace formular.ViewModels
             if (login)
             {
                 keyValues.Add(new KeyValuePair<string, string>("Table", "Person"));
-                keyValues.Add(new KeyValuePair<string, string>("User", loginData.Username));
-                keyValues.Add(new KeyValuePair<string, string>("Pass", loginData.Password));
+                keyValues.Add(new KeyValuePair<string, string>("Username", loginData.Username));
+                keyValues.Add(new KeyValuePair<string, string>("Password", loginData.Password));
             }
             else
             {
                 keyValues.Add(new KeyValuePair<string, string>("Table", "PersonData"));
                 keyValues.Add(new KeyValuePair<string, string>("Person_ID", loginData.ID.ToString()));
             }
-            
 
             return keyValues;
         }
