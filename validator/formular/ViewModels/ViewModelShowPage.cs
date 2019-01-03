@@ -242,7 +242,7 @@ namespace formular.ViewModels
         {
             List<KeyValuePair<string, string>> keyValues = new List<KeyValuePair<string, string>>();
 
-            keyValues.Add(new KeyValuePair<string, string>("Table", "OrderItems"));
+            keyValues.Add(new KeyValuePair<string, string>("Option", "OrderItems"));
             keyValues.Add(new KeyValuePair<string, string>("Order_ID", order.ID.ToString()));
             keyValues.Add(new KeyValuePair<string, string>("Item_ID", item.ID.ToString()));
 

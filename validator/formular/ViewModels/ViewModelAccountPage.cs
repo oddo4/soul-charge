@@ -57,18 +57,18 @@ namespace formular.ViewModels
         }
 
 
-        private int itemIsSelected;
+        private Order selectedItem;
 
-        public int ItemIsSelected
+        public Order SelectedItem
         {
             get
             {
-                return itemIsSelected;
+                return selectedItem;
             }
             set
             {
-                itemIsSelected = value;             
-                RaisePropertyChanged("ItemIsSelected");
+                selectedItem = value;             
+                RaisePropertyChanged("SelectedItem");
             }
         }
 
@@ -94,7 +94,7 @@ namespace formular.ViewModels
             ShowDataInListView();
         }
 
-        private async void ShowDataInListView()
+        private async void ShowDataInListView(bool hidden = false)
         {
             API api = new API();
             var result = await api.GetAllJsonTask("Order");
@@ -104,8 +104,27 @@ namespace formular.ViewModels
         }
         private async void HideData()
         {
-            
+            API api = new API();
+            var keyValues = CreateKeyValues(SelectedItem);
+
+            var result = await api.GetPostData(keyValues, "Order");
+
+            //ShowDataInListView();
         }
+
+        public List<KeyValuePair<string, string>> CreateKeyValues(Order order)
+        {
+            List<KeyValuePair<string, string>> keyValues = new List<KeyValuePair<string, string>>();
+
+            keyValues.Add(new KeyValuePair<string, string>("Method", "Update"));
+
+            keyValues.Add(new KeyValuePair<string, string>("Option", "Hide"));
+            keyValues.Add(new KeyValuePair<string, string>("Order_ID", order.ID.ToString()));
+            keyValues.Add(new KeyValuePair<string, string>("Person_ID", order.Person_ID.ToString()));
+
+            return keyValues;
+        }
+
         private void NavigateBack()
         {
             NavigationServiceSingleton.GetNavigationService().NavigateBack();

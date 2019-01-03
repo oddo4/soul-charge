@@ -196,13 +196,13 @@ namespace formular.ViewModels
             keyValues.Add(new KeyValuePair<string, string>("Method", "Get"));
             if (login)
             {
-                keyValues.Add(new KeyValuePair<string, string>("Table", "Person"));
+                keyValues.Add(new KeyValuePair<string, string>("Option", "Person"));
                 keyValues.Add(new KeyValuePair<string, string>("Username", loginData.Username));
                 keyValues.Add(new KeyValuePair<string, string>("Password", loginData.Password));
             }
             else
             {
-                keyValues.Add(new KeyValuePair<string, string>("Table", "PersonData"));
+                keyValues.Add(new KeyValuePair<string, string>("Option", "PersonData"));
                 keyValues.Add(new KeyValuePair<string, string>("Person_ID", loginData.ID.ToString()));
             }
 

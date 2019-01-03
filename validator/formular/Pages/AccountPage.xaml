@@ -11,7 +11,7 @@
     <Grid>
         <Button Content="Zpět" Width="50" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" Command="{Binding GoBackCommand}"/>
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-            <ListView HorizontalAlignment="Center" Height="200" VerticalAlignment="Center" Width="300" ItemsSource="{Binding ResultData}">
+            <ListView HorizontalAlignment="Center" Height="200" VerticalAlignment="Center" Width="300" ItemsSource="{Binding ResultData}" SelectedItem="{Binding SelectedItem}">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="ID" DisplayMemberBinding="{Binding ID}"/>
