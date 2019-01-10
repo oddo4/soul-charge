@@ -12,6 +12,14 @@ namespace formular.ViewModels
 {
     class ViewModelMainPage : ViewModelBase
     {
+        private string firstname = App.User.Firstname;
+
+        public string Firstname
+        {
+            get { return firstname; }
+            set { firstname = value; RaisePropertyChanged("Firstname"); }
+        }
+
         private RelayCommand<object> showDataCommand;
 
         public RelayCommand<object> ShowDataCommand

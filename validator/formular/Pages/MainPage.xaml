@@ -9,10 +9,13 @@
       Title="MainPage">
 
     <Grid>
+        <Label Content="{Binding Firstname}" Margin="5,5" HorizontalAlignment="Right" VerticalAlignment="Top"/>
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Button Content="Získat data" Width="80" Height="20" Margin="0,5" Command="{Binding ShowDataCommand}" CommandParameter="0"/>
+            <Button Content="Nová objednávka" Width="110" Height="20" Margin="0,5" Command="{Binding ShowDataCommand}" CommandParameter="0"/>
+            <!--
             <Button Content="Přidat data" Width="80" Height="20" Margin="0,5" Command="{Binding AddDataCommand}" CommandParameter="1"/>
-            <Button Content="Smazat data" Width="80" Height="20" Margin="0,5" Command="{Binding DeleteDataCommand}" CommandParameter="2"/>
+            -->
+            <Button Content="Účet" Width="50" Height="20" Margin="0,5" Command="{Binding DeleteDataCommand}" CommandParameter="2"/>
         </StackPanel>
     </Grid>
 </Page>

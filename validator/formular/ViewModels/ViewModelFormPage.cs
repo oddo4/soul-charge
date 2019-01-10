@@ -25,7 +25,9 @@ namespace formular.ViewModels
     }
     class ViewModelFormPage : ViewModelBase
     {
-        public PersonValidator validator = new PersonValidator();
+        public Login newLogin = new Login();
+
+        public LoginValidator validator = new LoginValidator();
 
         private Visibility sendNotice = Visibility.Hidden;
 
@@ -66,6 +68,7 @@ namespace formular.ViewModels
             set
             {
                 username = value;
+                newLogin.Username = username;
                 RaisePropertyChanged("Username");
             }
         }
@@ -94,6 +97,7 @@ namespace formular.ViewModels
             set
             {
                 password = value;
+                newLogin.Password = password;
                 RaisePropertyChanged("Password");
             }
         }
@@ -111,6 +115,22 @@ namespace formular.ViewModels
                 RaisePropertyChanged("BoolPassword");
             }
         }
+
+        //private bool backButtonVisible;
+
+        //public bool BackButtonVisible
+        //{
+        //    get
+        //    {
+        //        return backButtonVisible;
+        //    }
+        //    set
+        //    {
+        //        backButtonVisible = value;
+        //        RaisePropertyChanged("BackButtonVisible");
+        //    }
+        //}
+
 
         private RelayCommand sendCommand;
 
@@ -144,7 +164,7 @@ namespace formular.ViewModels
 
         public ViewModelFormPage()
         {
-            SendCommand = new RelayCommand(AddData, true);
+            SendCommand = new RelayCommand(ValidateForm, true);
             GoBackCommand = new RelayCommand(NavigateBack, true);
         }
 
@@ -152,27 +172,24 @@ namespace formular.ViewModels
         {
             ErrorMessage = "";
 
-            //ValidationResult results = validator.Validate(Person);
+            ValidationResult results = validator.Validate(newLogin);
 
-            //if (results.IsValid)
-            //{
-            //    AddData();
-
-            //    ErrorMessage = "Odesláno.";
-            //    SendNotice = Visibility.Visible;
-            //}
-            //else
-            //{
-            //    foreach (ValidationFailure error in results.Errors)
-            //        ErrorMessage += error.ErrorMessage + " ";
-            //    SendNotice = Visibility.Visible;
-            //}
+            if (results.IsValid)
+            {
+                GetData();
+            }
+            else
+            {
+                foreach (ValidationFailure error in results.Errors)
+                    ErrorMessage += error.ErrorMessage + " ";
+                SendNotice = Visibility.Visible;
+            }
         }
 
-        public async void AddData()
+        public async void GetData()
         {
             API api = new API();
-            var loginResult = await api.GetPostData(CreateKeyValues(new Login() { Username = username, Password = password }), "Person");
+            var loginResult = await api.GetPostData(CreateKeyValues(newLogin), "Person");
             var loginData = await api.ParseJsonTask<Login>(loginResult);
 
             if (loginData.Count == 1)
@@ -184,9 +201,16 @@ namespace formular.ViewModels
                 App.User = personData.FirstOrDefault();
 
                 NavigationServiceSingleton.GetNavigationService().NavigateToPage(new MainPage());
+
+                ErrorMessage = "Přihlášen.";
+                SendNotice = Visibility.Visible;
+            }
+            else
+            {
+                ErrorMessage = "Špatné přihlašovací údaje.";
+                SendNotice = Visibility.Visible;
             }
 
-            //api.InsertPersonData(Person);
         }
 
         public List<KeyValuePair<string, string>> CreateKeyValues(Login loginData, bool login = true)
@@ -196,7 +220,7 @@ namespace formular.ViewModels
             keyValues.Add(new KeyValuePair<string, string>("Method", "Get"));
             if (login)
             {
-                keyValues.Add(new KeyValuePair<string, string>("Option", "Person"));
+                keyValues.Add(new KeyValuePair<string, string>("Option", "Login"));
                 keyValues.Add(new KeyValuePair<string, string>("Username", loginData.Username));
                 keyValues.Add(new KeyValuePair<string, string>("Password", loginData.Password));
             }

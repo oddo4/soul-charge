@@ -144,7 +144,7 @@
     <Compile Include="Classes\Order.cs" />
     <Compile Include="Classes\Singletons\NavigationServiceSingleton.cs" />
     <Compile Include="Classes\Person\Person.cs" />
-    <Compile Include="Classes\Validators\PersonValidator.cs" />
+    <Compile Include="Classes\Validators\LoginValidator.cs" />
     <Compile Include="Classes\ValidationExtensions.cs" />
     <Compile Include="Pages\AccountPage.xaml.cs">
       <DependentUpon>AccountPage.xaml</DependentUpon>

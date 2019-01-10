@@ -16,9 +16,9 @@ namespace formular.Classes
         private string defaultUrl = "https://student.sps-prosek.cz/~bounlfi15/evidence/api.php";
         private string tablPrefix = "ObS";
 
-        public async Task<string> GetAllJsonTask(string tbl, string args = "")
+        public async Task<string> GetData(string tbl, string args = "")
         {
-            var uri = new Uri(defaultUrl + "?tbl=" + tablPrefix + tbl + args);
+            var uri = new Uri(defaultUrl + "?tbl=" + tablPrefix + tbl + "&" + args);
 
             string content = await Task.Run(async () =>
             {
@@ -42,23 +42,23 @@ namespace formular.Classes
         //    return content;
         //}
 
-        public async void InsertPersonData(Person newPerson)
-        {
-            var request = new HttpRequestMessage(HttpMethod.Post, defaultUrl + "?tbl=" + tablPrefix + "Person");
+        //public async void InsertPersonData(Person newPerson)
+        //{
+        //    var request = new HttpRequestMessage(HttpMethod.Post, defaultUrl + "?tbl=" + tablPrefix + "Person");
 
-            var keyValues = new List<KeyValuePair<string, string>>();
+        //    var keyValues = new List<KeyValuePair<string, string>>();
 
-            keyValues = newPerson.CreateKeyValues();
+        //    keyValues = newPerson.CreateKeyValues();
 
-            request.Content = new FormUrlEncodedContent(keyValues);
+        //    request.Content = new FormUrlEncodedContent(keyValues);
 
-            string content = await Task.Run(async () =>
-            {
-                var response = await client.SendAsync(request);
-                if (response.IsSuccessStatusCode) return await response.Content.ReadAsStringAsync();
-                throw new HttpRequestException("Communication with server failed");
-            });
-        }
+        //    string content = await Task.Run(async () =>
+        //    {
+        //        var response = await client.SendAsync(request);
+        //        if (response.IsSuccessStatusCode) return await response.Content.ReadAsStringAsync();
+        //        throw new HttpRequestException("Communication with server failed");
+        //    });
+        //}
 
         public async Task<string> GetPostData(List<KeyValuePair<string, string>> keyValues, string tbl)
         {

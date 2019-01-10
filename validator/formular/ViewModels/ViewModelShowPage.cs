@@ -15,20 +15,17 @@ namespace formular.ViewModels
 {
     class ViewModelShowItemsPage : ViewModelBase
     {
-        public PersonValidator validator = new PersonValidator();
-        private Person person;
-        public Person Person
+        //public LoginValidator validator = new LoginValidator();
+
+        private string firstname = App.User.Firstname;
+
+        public string Firstname
         {
-            get
-            {
-                return person;
-            }
-            set
-            {
-                person = value;
-                RaisePropertyChanged("Person");
-            }
+            get { return firstname; }
+            set { firstname = value; RaisePropertyChanged("Firstname"); }
         }
+
+
         private Visibility sendNotice = Visibility.Hidden;
 
         public Visibility SendNotice
@@ -188,18 +185,13 @@ namespace formular.ViewModels
         private async void GetDataFromAPI()
         {
             API api = new API();
-            var result = await api.GetAllJsonTask("Item");
+            var result = await api.GetData("Item");
             var c = await api.ParseJsonTask<Item>(result);
 
             foreach (Item item in c)
             {
                 ItemsData.Add(item);
             }
-
-            var personResult = await api.GetAllJsonTask("Person", "&id=" + App.User.ID);
-            var p = await api.ParseJsonTask<Person>(personResult);
-
-            Person = p.FirstOrDefault();
         }
 
         public void ValidateForm()
@@ -223,18 +215,18 @@ namespace formular.ViewModels
         {
             API api = new API();
 
-            Order newOrder = new Order() { Person_ID = Person.ID };
+            Order newOrder = new Order() { Person_ID = App.User.ID };
 
-            Debug.WriteLine(DateTime.Now);
+            //Debug.WriteLine(DateTime.Now);
 
-            api.InsertData(newOrder.CreateKeyValues(), "Order");
+            var newOrderSuccess = await api.InsertData(newOrder.CreateKeyValues(), "Order");
 
-            var orderResult = await api.GetAllJsonTask("Order");
-            var o = (await api.ParseOrderJsonTask(orderResult)).Last();
+            var orderResult = await api.GetData("Order", "id=" + App.User.ID);
+            var o = (await api.ParseJsonTask<Order>(orderResult)).Last();
 
             foreach (Item item in OrderListData)
             {
-                api.InsertData(CreateKeyValues(item, o), "OrderItems");
+                var newOrderItems = await api.InsertData(CreateKeyValues(item, o), "OrderItems");
             }
         }
 
@@ -242,6 +234,7 @@ namespace formular.ViewModels
         {
             List<KeyValuePair<string, string>> keyValues = new List<KeyValuePair<string, string>>();
 
+            keyValues.Add(new KeyValuePair<string, string>("Method", "Insert"));
             keyValues.Add(new KeyValuePair<string, string>("Option", "OrderItems"));
             keyValues.Add(new KeyValuePair<string, string>("Order_ID", order.ID.ToString()));
             keyValues.Add(new KeyValuePair<string, string>("Item_ID", item.ID.ToString()));

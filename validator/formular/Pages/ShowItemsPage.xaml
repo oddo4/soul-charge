@@ -10,34 +10,36 @@
 
     <Grid>
         <Button Content="Zrušit" Width="50" Height="20" Margin="5,5" HorizontalAlignment="Left" VerticalAlignment="Top" Command="{Binding GoBackCommand}"/>
-        <Label Content="{Binding Person.Firstname}" Margin="5,5" HorizontalAlignment="Right" VerticalAlignment="Top"/>
-        <TextBlock Text="{Binding ErrorMessage}" Visibility="{Binding SendNotice}" TextWrapping="Wrap" Width="250" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <StackPanel VerticalAlignment="Center" Margin="10,0">
-                <Label Content="Produkty" HorizontalAlignment="Center" FontWeight="Bold"/>
-                <ListView Height="200" Width="150" ItemsSource="{Binding ItemsData}" SelectedItem="{Binding SelectedItemToAdd}">
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn Header="Název položky" DisplayMemberBinding="{Binding Name}"/>
-                            <GridViewColumn Header="Cena" DisplayMemberBinding="{Binding Price}"/>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
-                <Button Content="Přidat do košíku" Width="100" Height="20" Margin="0,10" Command="{Binding MoveItemCommand}" CommandParameter="1"/>
+        <Label Content="{Binding Firstname}" Margin="5,5" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+        <StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <StackPanel VerticalAlignment="Center" Margin="10,0">
+                    <Label Content="Produkty" HorizontalAlignment="Center" FontWeight="Bold"/>
+                    <ListView Height="200" Width="150" ItemsSource="{Binding ItemsData}" SelectedItem="{Binding SelectedItemToAdd}">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Název položky" DisplayMemberBinding="{Binding Name}"/>
+                                <GridViewColumn Header="Cena" DisplayMemberBinding="{Binding Price}"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <Button Content="Přidat do košíku" Width="100" Height="20" Margin="0,10" Command="{Binding MoveItemCommand}" CommandParameter="1"/>
+                </StackPanel>
+                <StackPanel VerticalAlignment="Center" Margin="10,0">
+                    <Label Content="Nákupní košík" HorizontalAlignment="Center" FontWeight="Bold"/>
+                    <ListView Height="200" Width="150" ItemsSource="{Binding OrderListData}" SelectedIndex="{Binding SelectedIndexToRemove}">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Název položky" DisplayMemberBinding="{Binding Name}"/>
+                                <GridViewColumn Header="Cena" DisplayMemberBinding="{Binding Price}"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <Button Content="Odebrat z košíku" Width="100" Height="20" Margin="0,10" Command="{Binding MoveItemCommand}" CommandParameter="0"/>
+                </StackPanel>
             </StackPanel>
-            <StackPanel VerticalAlignment="Center" Margin="10,0">
-                <Label Content="Nákupní košík" HorizontalAlignment="Center" FontWeight="Bold"/>
-                <ListView Height="200" Width="150" ItemsSource="{Binding OrderListData}" SelectedIndex="{Binding SelectedIndexToRemove}">
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn Header="Název položky" DisplayMemberBinding="{Binding Name}"/>
-                            <GridViewColumn Header="Cena" DisplayMemberBinding="{Binding Price}"/>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
-                <Button Content="Odebrat z košíku" Width="100" Height="20" Margin="0,10" Command="{Binding MoveItemCommand}" CommandParameter="0"/>
-            </StackPanel>
+            <Button Content="Objednat" Width="70" Height="20" Margin="0,5" VerticalAlignment="Center" Command="{Binding SendCommand}"/>
+            <TextBlock Text="{Binding ErrorMessage}" Visibility="{Binding SendNotice}" TextWrapping="Wrap" Width="250" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </StackPanel>
-        <Button Content="Objednat" Width="70" Height="20" Margin="0,5" VerticalAlignment="Bottom" Command="{Binding SendCommand}"/>
     </Grid>
 </Page>

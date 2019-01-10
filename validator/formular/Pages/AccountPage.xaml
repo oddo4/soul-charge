@@ -8,9 +8,36 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="AccountPage">
 
-    <Grid>
+    <Grid Background="White">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
         <Button Content="Zpět" Width="50" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" Command="{Binding GoBackCommand}"/>
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0">
+            <Label Content="Údaje" HorizontalAlignment="Center" FontWeight="Bold"/>
+            <StackPanel Orientation="Vertical" Margin="0,5" HorizontalAlignment="Center">
+                <Label Content="Jméno:" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Height="25" Width="120"/>
+                <TextBox Height="25" Width="150" Text="{Binding Firstname}"/>
+            </StackPanel>
+            <StackPanel Orientation="Vertical" Margin="0,5" HorizontalAlignment="Center">
+                <Label Content="Příjmení:" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Height="25" Width="120"/>
+                <TextBox Height="25" Width="150" Text="{Binding Surname}"/>
+                <StackPanel Orientation="Vertical" Margin="0,5" HorizontalAlignment="Center">
+                    <Label Content="E-mail:" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Height="25" Width="120"/>
+                    <TextBox Height="25" Width="150" Text="{Binding Email}"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" Margin="0,5" HorizontalAlignment="Center">
+                    <Label Content="Datum narození:" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Height="25" Width="120"/>
+                    <TextBox Height="25" Width="150" Text="{Binding PhoneNumber}"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" Margin="0,5" HorizontalAlignment="Center">
+                    <Label Content="Telefon:" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Height="25" Width="120"/>
+                    <DatePicker Height="25" Width="150"/>
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1">
             <ListView HorizontalAlignment="Center" Height="200" VerticalAlignment="Center" Width="300" ItemsSource="{Binding ResultData}" SelectedItem="{Binding SelectedItem}">
                 <ListView.View>
                     <GridView>
@@ -19,7 +46,10 @@
                     </GridView>
                 </ListView.View>
             </ListView>
-            <Button Content="Skrýt" Width="50" Height="20" Margin="0,5" IsEnabled="{Binding HideBtnEnabled}" Command="{Binding HideDataCommand}"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,5">
+                <Button Content="Skrýt" Width="50" Height="20" Margin="5,0" IsEnabled="{Binding HideBtnEnabled}" Command="{Binding HideDataCommand}"/>
+                <CheckBox VerticalAlignment="Center" Margin="5,0" Content="Zobrazit skryté" IsChecked="{Binding ShowHidden}"/>
+            </StackPanel>
         </StackPanel>
     </Grid>
 </Page>

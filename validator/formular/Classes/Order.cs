@@ -15,12 +15,14 @@ namespace formular.Classes
             get;
             set;
         }
+        public int Hidden { get; set; }
 
         public List<KeyValuePair<string, string>> CreateKeyValues()
         {
             var list = new List<KeyValuePair<string, string>>();
 
-            list.Add(new KeyValuePair<string, string>("Table", "Order"));
+            list.Add(new KeyValuePair<string, string>("Method", "Insert"));
+            list.Add(new KeyValuePair<string, string>("Option", "Order"));
             list.Add(new KeyValuePair<string, string>("Person_ID", Person_ID.ToString()));
 
             return list;
