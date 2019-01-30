@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.329
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "highscore", "highscore\highscore.csproj", "{932E535D-F100-4437-9C7D-5F29B68495D5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library", "Library\Library.csproj", "{E43CC91A-C84E-45FC-8BE3-3AF07B3F0555}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "highscoreWPF", "highscoreWPF\highscoreWPF.csproj", "{FE433815-CE38-468F-9BE0-362D4F66043B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{932E535D-F100-4437-9C7D-5F29B68495D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{932E535D-F100-4437-9C7D-5F29B68495D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{932E535D-F100-4437-9C7D-5F29B68495D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{932E535D-F100-4437-9C7D-5F29B68495D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E43CC91A-C84E-45FC-8BE3-3AF07B3F0555}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E43CC91A-C84E-45FC-8BE3-3AF07B3F0555}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E43CC91A-C84E-45FC-8BE3-3AF07B3F0555}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E43CC91A-C84E-45FC-8BE3-3AF07B3F0555}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE433815-CE38-468F-9BE0-362D4F66043B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE433815-CE38-468F-9BE0-362D4F66043B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE433815-CE38-468F-9BE0-362D4F66043B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE433815-CE38-468F-9BE0-362D4F66043B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3AD637ED-B69F-4795-8237-A6AAA7F1ABFC}
+	EndGlobalSection
+EndGlobal

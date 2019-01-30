@@ -1,0 +1,29 @@
+﻿<Window x:Class="highscoreWPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:highscoreWPF"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <Label Content="Jméno: "/>
+            <TextBox x:Name="NameInput" Width="100" Margin="0,5"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <Label Content="Skóre: "/>
+            <TextBox x:Name="ScoreInput" Width="100" Margin="0,5"/>
+        </StackPanel>
+        <Button Content="Odeslat" Width="70" Margin="0,5" Click="SendScore_Click"/>
+        <ListView x:Name="ScoreList" Height="200" Width="150" Margin="0,5">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Jméno" DisplayMemberBinding="{Binding Name}"/>
+                    <GridViewColumn Header="Skóre" DisplayMemberBinding="{Binding Score}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+    </StackPanel>
+</Window>

@@ -6,15 +6,16 @@
         xmlns:local="clr-namespace:chuck_norris"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-        <TextBlock x:Name="JokeTxtBlk" HorizontalAlignment="Center" VerticalAlignment="Center" Width="500" TextWrapping="Wrap"/>
-        <ListView x:Name="TestList" Height="300" Width="500">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="Joke" DisplayMemberBinding="{Binding Value}"/>
-                </GridView>
-            </ListView.View>
-        </ListView>
-
-    </StackPanel>
+    <Viewbox HorizontalAlignment="Center" VerticalAlignment="Center">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock x:Name="JokeTxtBlk" HorizontalAlignment="Center" VerticalAlignment="Center" Width="500" TextWrapping="Wrap"/>
+            <ListView x:Name="TestList" Height="300" Width="500">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Joke" DisplayMemberBinding="{Binding Value}"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </StackPanel>
+    </Viewbox>
 </Window>
