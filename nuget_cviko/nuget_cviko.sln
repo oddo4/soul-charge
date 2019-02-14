@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.329
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nuget_cviko", "nuget_cviko\nuget_cviko.csproj", "{CCF1D784-5E25-4924-BE30-6B7C48749F8B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CCF1D784-5E25-4924-BE30-6B7C48749F8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CCF1D784-5E25-4924-BE30-6B7C48749F8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CCF1D784-5E25-4924-BE30-6B7C48749F8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CCF1D784-5E25-4924-BE30-6B7C48749F8B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1FB772DB-75A9-4C31-802F-CFEA778F98C3}
+	EndGlobalSection
+EndGlobal
