@@ -1,0 +1,24 @@
+﻿<Window x:Class="VLC_cviko.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:VLC_cviko"
+        xmlns:Vlc="clr-namespace:Vlc.DotNet.Wpf;assembly=Vlc.DotNet.Wpf"
+        xmlns:asf="clr-namespace:AirspaceFixer;assembly=AirspaceFixer"
+        mc:Ignorable="d"
+        ResizeMode="CanResize"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="6*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Vlc:VlcControl x:Name="MyControl" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="0"/>
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="1" Orientation="Horizontal">
+            <Button x:Name="BwdBtn" Content="⬅️" HorizontalAlignment="Center" Width="20" Height="20" Click="Backward_Click"/>
+            <Button x:Name="PlayBtn" Content="▶️" HorizontalAlignment="Center" Width="20" Height="20" Click="Pause_Click"/>
+            <Button x:Name="FwdBtn" Content="➡️" HorizontalAlignment="Center" Width="20" Height="20" Click="Forward_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>
