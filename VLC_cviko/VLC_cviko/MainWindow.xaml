@@ -14,11 +14,14 @@
             <RowDefinition Height="6*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Vlc:VlcControl x:Name="MyControl" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="0"/>
-        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="1" Orientation="Horizontal">
-            <Button x:Name="BwdBtn" Content="⬅️" HorizontalAlignment="Center" Width="20" Height="20" Click="Backward_Click"/>
-            <Button x:Name="PlayBtn" Content="▶️" HorizontalAlignment="Center" Width="20" Height="20" Click="Pause_Click"/>
-            <Button x:Name="FwdBtn" Content="➡️" HorizontalAlignment="Center" Width="20" Height="20" Click="Forward_Click"/>
+        <Vlc:VlcControl x:Name="VideoView" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="0"/>
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="1" Orientation="Vertical">
+            <Slider Width="600" Value="{Binding VideoTime, Mode=TwoWay}" Minimum="0" Maximum="10000"/>
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
+                <Button Content="Backward" HorizontalAlignment="Center" Width="60" Height="20" Command="{Binding BackwardCommand}"/>
+                <Button Content="Pause" HorizontalAlignment="Center" Width="50" Height="20" Command="{Binding PlaybackCommand}"/>
+                <Button Content="Forward" HorizontalAlignment="Center" Width="60" Height="20" Command="{Binding ForwardCommand}"/>
+            </StackPanel>
         </StackPanel>
     </Grid>
 </Window>
