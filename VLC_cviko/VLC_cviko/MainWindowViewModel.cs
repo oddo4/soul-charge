@@ -16,10 +16,28 @@ namespace VLC_cviko
     {
         private VlcControl videoView;
         private bool isPaused = false;
+        private bool isStopped = false;
+        private List<Uri> uriList = new List<Uri>();
+        private int currentIndex = 0;
 
-        private double videoTime;
+        private string playbackBtn = "Pause";
 
-        public double VideoTime
+        public string PlaybackBtn
+        {
+            get
+            {
+                return playbackBtn;
+            }
+            set
+            {
+                playbackBtn = value;
+                RaisePropertyChanged("PlaybackBtn");
+            }
+        }
+
+        private float videoTime;
+
+        public float VideoTime
         {
             get
             {
@@ -29,7 +47,21 @@ namespace VLC_cviko
             {
                 videoTime = value;
                 RaisePropertyChanged("VideoTime");
-                KingCrimson(videoTime);
+            }
+        }
+
+        private float videoMaxTime = 1;
+
+        public float VideoMaxTime
+        {
+            get
+            {
+                return videoMaxTime;
+            }
+            set
+            {
+                videoMaxTime = value;
+                RaisePropertyChanged("VideoMaxTime");
             }
         }
 
@@ -81,52 +113,86 @@ namespace VLC_cviko
 
         public MainWindowViewModel(VlcControl videoView)
         {
+            CreateList();
+
             this.videoView = videoView;
 
             initializeVlcControl();
 
-            PlaybackCommand = new RelayCommand(TheWorld, true);
-            ForwardCommand = new RelayCommand(MadeInHeaven, true);
-            BackwardCommand = new RelayCommand(Mandom, true);
-            videoView.MediaPlayer.TimeChanged += GoldExperienceRequiem;
+            PlaybackCommand = new RelayCommand(Playback, true);
+            ForwardCommand = new RelayCommand(Forward, true);
+            BackwardCommand = new RelayCommand(Backward, true);
 
+            videoView.MediaPlayer.TimeChanged += SliderChanged;
+            videoView.MediaPlayer.EndReached += VideoEnd;
 
-            videoView.MediaPlayer.Play(new Uri("http://download.blender.org/peach/bigbuckbunny_movies/big_buck_bunny_480p_h264.mov"));
+            SetNextVideo();
         }
 
-        private void GoldExperienceRequiem(object sender, VlcMediaPlayerTimeChangedEventArgs e)
+        public void CreateList()
         {
-            VideoTime = videoView.MediaPlayer.Time;
-            Debug.WriteLine(VideoTime);
+            uriList.Add(new Uri("http://download.blender.org/peach/bigbuckbunny_movies/big_buck_bunny_480p_h264.mov"));
+            uriList.Add(new Uri("D:/source/repos/bounlfi15/soul-charge/VLC_cviko/BigBuckBunny_320x180.mp4"));
         }
 
-        private void TheWorld()
+        public void SetNextVideo()
         {
+            videoView.MediaPlayer.Play(uriList[currentIndex]);
+
+            Debug.WriteLine("next " + currentIndex);
+        }
+
+        public void SliderChanged(object sender, VlcMediaPlayerTimeChangedEventArgs e)
+        {
+            VideoTime = videoView.MediaPlayer.Position;
+
+            //Debug.WriteLine(videoView.MediaPlayer.Position + "; " + videoView.MediaPlayer.Time);
+        }
+
+        //Play/pause
+        public void Playback()
+        {
+            //if (isStopped)
+            //{
+            //    SetNextVideo();
+            //    isStopped = false;
+            //}
+
             if (isPaused)
             {
                 videoView.MediaPlayer.Play();
+                PlaybackBtn = "Pause";
             }
             else
             {
                 videoView.MediaPlayer.Pause();
+                PlaybackBtn = "Play";
             }
 
             isPaused = !isPaused;
         }
 
-        private void MadeInHeaven()
+        //Forward
+        public void Forward()
         {
-            //videoView.MediaPlayer.Time
+            videoView.MediaPlayer.Time += 500;
         }
 
-        private void Mandom()
+        //Backward
+        public void Backward()
         {
 
         }
 
-        private void KingCrimson(double value)
+        public void Rewind()
         {
+            videoView.MediaPlayer.Position = VideoTime;
+        }
 
+        public void VideoEnd(object sender, VlcMediaPlayerEndReachedEventArgs e)
+        {
+            currentIndex = currentIndex++;
+            SetNextVideo();
         }
 
         private void initializeVlcControl()

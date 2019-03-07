@@ -27,5 +27,16 @@ namespace VLC_cviko
             InitializeComponent();
             this.DataContext = new MainWindowViewModel(VideoView);
         }
+
+        private void Slider_DragStarted(object sender, System.Windows.Controls.Primitives.DragStartedEventArgs e)
+        {
+            ((MainWindowViewModel)DataContext).Playback();
+        }
+
+        private void Slider_DragCompleted(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)
+        {
+            ((MainWindowViewModel)DataContext).Rewind();
+            ((MainWindowViewModel)DataContext).Playback();
+        }
     }
 }
