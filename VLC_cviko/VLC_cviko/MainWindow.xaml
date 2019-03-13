@@ -14,7 +14,7 @@
             <RowDefinition Height="6*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Vlc:VlcControl x:Name="VideoView" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="0" />
+        <Vlc:VlcControl x:Name="VideoView" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="0"/>
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="1" Orientation="Vertical" Thumb.DragStarted="Slider_DragStarted" Thumb.DragCompleted="Slider_DragCompleted">
             <Slider Width="600" Value="{Binding VideoTime, Mode=TwoWay}" Minimum="0" Maximum="{Binding VideoMaxTime}"/>
             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">

@@ -16,7 +16,6 @@ namespace VLC_cviko
     {
         private VlcControl videoView;
         private bool isPaused = false;
-        private bool isStopped = false;
         private List<Uri> uriList = new List<Uri>();
         private int currentIndex = 0;
 
@@ -117,14 +116,15 @@ namespace VLC_cviko
 
             this.videoView = videoView;
 
-            initializeVlcControl();
-
             PlaybackCommand = new RelayCommand(Playback, true);
             ForwardCommand = new RelayCommand(Forward, true);
             BackwardCommand = new RelayCommand(Backward, true);
 
+            videoView.MediaPlayer.Playing += VideoPlaying;
             videoView.MediaPlayer.TimeChanged += SliderChanged;
             videoView.MediaPlayer.EndReached += VideoEnd;
+
+            initializeVlcControl();
 
             SetNextVideo();
         }
@@ -144,7 +144,7 @@ namespace VLC_cviko
 
         public void SliderChanged(object sender, VlcMediaPlayerTimeChangedEventArgs e)
         {
-            VideoTime = videoView.MediaPlayer.Position;
+            VideoTime = videoView.MediaPlayer.Time;
 
             //Debug.WriteLine(videoView.MediaPlayer.Position + "; " + videoView.MediaPlayer.Time);
         }
@@ -175,24 +175,31 @@ namespace VLC_cviko
         //Forward
         public void Forward()
         {
-            videoView.MediaPlayer.Time += 500;
+            videoView.MediaPlayer.Time += 3000;
         }
 
         //Backward
         public void Backward()
         {
-
+            videoView.MediaPlayer.Time -= 500;
         }
 
         public void Rewind()
         {
-            videoView.MediaPlayer.Position = VideoTime;
+            videoView.MediaPlayer.Time = (long)VideoTime;
+        }
+
+        private void VideoPlaying(object sender, VlcMediaPlayerPlayingEventArgs e)
+        {
+            VideoMaxTime = videoView.MediaPlayer.Length;
         }
 
         public void VideoEnd(object sender, VlcMediaPlayerEndReachedEventArgs e)
         {
-            currentIndex = currentIndex++;
-            SetNextVideo();
+            videoView.MediaPlayer.Stop();
+            //currentIndex++;
+            //ResetPlayer();
+            //SetNextVideo();
         }
 
         private void initializeVlcControl()
@@ -202,6 +209,11 @@ namespace VLC_cviko
             videoView.MediaPlayer.VlcLibDirectory = vlcLibDirectory;
 
             videoView.MediaPlayer.EndInit();
+        }
+
+        public void ResetPlayer()
+        {
+            VideoTime = 0;
         }
     }
 }
