@@ -11,17 +11,23 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="6*"/>
+            <RowDefinition Height="12*"/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Vlc:VlcControl x:Name="VideoView" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="0"/>
-        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="1" Orientation="Vertical" Thumb.DragStarted="Slider_DragStarted" Thumb.DragCompleted="Slider_DragCompleted">
-            <Slider Width="600" Value="{Binding VideoTime, Mode=TwoWay}" Minimum="0" Maximum="{Binding VideoMaxTime}"/>
-            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
-                <Button Content="Backward" HorizontalAlignment="Center" Width="60" Height="20" Command="{Binding BackwardCommand}"/>
-                <Button Content="{Binding PlaybackBtn}" HorizontalAlignment="Center" Width="50" Height="20" Command="{Binding PlaybackCommand}"/>
-                <Button Content="Forward" HorizontalAlignment="Center" Width="60" Height="20" Command="{Binding ForwardCommand}"/>
-            </StackPanel>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="10*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Vlc:VlcControl x:Name="VideoView" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="0" Grid.ColumnSpan="2"/>
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="1"  Grid.ColumnSpan="2" Orientation="Vertical">
+            <Slider Width="700" Value="{Binding VideoTime, Mode=TwoWay}" Minimum="0" Maximum="{Binding VideoMaxTime}" Thumb.DragStarted="Slider_DragStarted" Thumb.DragCompleted="Slider_DragCompleted"/>
         </StackPanel>
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal" Margin="0,5" Grid.Row="2" Grid.ColumnSpan="2">
+            <Button Content="Backward" HorizontalAlignment="Center" Width="60" Height="20" Command="{Binding BackwardCommand}"/>
+            <Button Content="{Binding PlaybackBtn}" HorizontalAlignment="Center" Width="50" Height="20" Command="{Binding PlaybackCommand}"/>
+            <Button Content="Forward" HorizontalAlignment="Center" Width="60" Height="20" Command="{Binding ForwardCommand}"/>
+        </StackPanel>
+        <Button Content="Playlist" Width="50" Height="20" Command="{Binding ShowPlaylistCommand}" Grid.Row="2" Grid.Column="1"/>
     </Grid>
 </Window>

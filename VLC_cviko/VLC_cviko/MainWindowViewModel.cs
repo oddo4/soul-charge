@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Vlc.DotNet.Core;
 using Vlc.DotNet.Wpf;
@@ -16,9 +17,12 @@ namespace VLC_cviko
     {
         private VlcControl videoView;
         private bool isPaused = false;
+        private bool isStopped = false;
         private List<Uri> uriList = new List<Uri>();
         private int currentIndex = 0;
+        private string[] mediaOptions;
 
+        #region
         private string playbackBtn = "Pause";
 
         public string PlaybackBtn
@@ -109,6 +113,21 @@ namespace VLC_cviko
                 RaisePropertyChanged("BackwardCommand");
             }
         }
+        private RelayCommand showPlaylistCommand;
+
+        public RelayCommand ShowPlaylistCommand
+        {
+            get
+            {
+                return showPlaylistCommand;
+            }
+            set
+            {
+                showPlaylistCommand = value;
+                RaisePropertyChanged("ShowPlaylistCommand");
+            }
+        }
+        #endregion
 
         public MainWindowViewModel(VlcControl videoView)
         {
@@ -116,9 +135,12 @@ namespace VLC_cviko
 
             this.videoView = videoView;
 
+            SetOptions();
+
             PlaybackCommand = new RelayCommand(Playback, true);
             ForwardCommand = new RelayCommand(Forward, true);
             BackwardCommand = new RelayCommand(Backward, true);
+            ShowPlaylistCommand = new RelayCommand(ShowPlaylist, true);
 
             videoView.MediaPlayer.Playing += VideoPlaying;
             videoView.MediaPlayer.TimeChanged += SliderChanged;
@@ -137,7 +159,7 @@ namespace VLC_cviko
 
         public void SetNextVideo()
         {
-            videoView.MediaPlayer.Play(uriList[currentIndex]);
+            ThreadPool.QueueUserWorkItem((v) => videoView.MediaPlayer.Play(uriList[currentIndex], mediaOptions));
 
             Debug.WriteLine("next " + currentIndex);
         }
@@ -152,11 +174,12 @@ namespace VLC_cviko
         //Play/pause
         public void Playback()
         {
-            //if (isStopped)
-            //{
-            //    SetNextVideo();
-            //    isStopped = false;
-            //}
+            if (isStopped)
+            {
+                SetNextVideo();
+                isStopped = false;
+                isPaused = false;
+            }
 
             if (isPaused)
             {
@@ -175,13 +198,18 @@ namespace VLC_cviko
         //Forward
         public void Forward()
         {
-            videoView.MediaPlayer.Time += 3000;
+            videoView.MediaPlayer.Time += 30000;
         }
 
         //Backward
         public void Backward()
         {
-            videoView.MediaPlayer.Time -= 500;
+            videoView.MediaPlayer.Time -= 5000;
+        }
+
+        public void ShowPlaylist()
+        {
+            PlaylistView playlist = new PlaylistView();
         }
 
         public void Rewind()
@@ -196,10 +224,34 @@ namespace VLC_cviko
 
         public void VideoEnd(object sender, VlcMediaPlayerEndReachedEventArgs e)
         {
-            videoView.MediaPlayer.Stop();
-            //currentIndex++;
-            //ResetPlayer();
-            //SetNextVideo();
+            currentIndex++;
+         
+            ResetPlayer();
+
+            if (!EndOfPlaylist())
+            {
+                SetNextVideo();
+            }
+            else
+            {
+                isPaused = false;
+                Playback();
+
+                ResetPlaylist();
+
+                isStopped = true;
+                videoView.MediaPlayer.Pause();
+            }
+        }
+
+        public bool EndOfPlaylist()
+        {
+            if (currentIndex >= uriList.Count)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         private void initializeVlcControl()
@@ -208,12 +260,22 @@ namespace VLC_cviko
 
             videoView.MediaPlayer.VlcLibDirectory = vlcLibDirectory;
 
+
             videoView.MediaPlayer.EndInit();
+        }
+
+        public void SetOptions()
+        {
+            //mediaOptions = new string[] { "input-repeat=1" };
         }
 
         public void ResetPlayer()
         {
             VideoTime = 0;
+        }
+        public void ResetPlaylist()
+        {
+            currentIndex = 0;
         }
     }
 }
