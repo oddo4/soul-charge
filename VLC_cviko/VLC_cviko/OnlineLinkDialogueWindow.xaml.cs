@@ -16,20 +16,25 @@ using System.Windows.Shapes;
 namespace VLC_cviko
 {
     /// <summary>
-    /// Interakční logika pro PlaylistView.xaml
+    /// Interakční logika pro OnlineLinkDialogueWindow.xaml
     /// </summary>
-    public partial class PlaylistView : Window
+    public partial class OnlineLinkDialogueWindow : Window
     {
-        public PlaylistView()
+        public OnlineLinkDialogueWindow()
         {
             InitializeComponent();
-            this.DataContext = new PlaylistViewModel();
+            this.DataContext = new OnlineLinkDialogueViewModel();
         }
 
         protected override void OnClosing(CancelEventArgs e)
         {
             e.Cancel = true;
             this.Hide();
+        }
+
+        public void Reset()
+        {
+            ((OnlineLinkDialogueViewModel)DataContext).Reset();
         }
     }
 }

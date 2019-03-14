@@ -13,17 +13,33 @@ using Vlc.DotNet.Wpf;
 
 namespace VLC_cviko
 {
-    class MainWindowViewModel : ViewModelBase
+    public class MainWindowViewModel : ViewModelBase
     {
         private VlcControl videoView;
-        private bool isPaused = false;
-        private bool isStopped = false;
-        private List<Uri> uriList = new List<Uri>();
+        private PlaylistView playlistView;
+        private PlaylistViewModel playlistViewModel;
+        private bool isPaused = true;
+        private bool isStopped = true;
         private int currentIndex = 0;
         private string[] mediaOptions;
 
         #region
-        private string playbackBtn = "Pause";
+        private string videoName = "xd";
+
+        public string VideoName
+        {
+            get
+            {
+                return videoName;
+            }
+            set
+            {
+                videoName = value;
+                RaisePropertyChanged("VideoName");
+            }
+        }
+
+        private string playbackBtn = "Play";
 
         public string PlaybackBtn
         {
@@ -113,6 +129,35 @@ namespace VLC_cviko
                 RaisePropertyChanged("BackwardCommand");
             }
         }
+        private RelayCommand nextCommand;
+
+        public RelayCommand NextCommand
+        {
+            get
+            {
+                return nextCommand;
+            }
+            set
+            {
+                nextCommand = value;
+                RaisePropertyChanged("NextCommand");
+            }
+        }
+
+        private RelayCommand previousCommand;
+
+        public RelayCommand PreviousCommand
+        {
+            get
+            {
+                return previousCommand;
+            }
+            set
+            {
+                previousCommand = value;
+                RaisePropertyChanged("PreviousCommand");
+            }
+        }
         private RelayCommand showPlaylistCommand;
 
         public RelayCommand ShowPlaylistCommand
@@ -129,17 +174,19 @@ namespace VLC_cviko
         }
         #endregion
 
-        public MainWindowViewModel(VlcControl videoView)
+        public MainWindowViewModel(VlcControl videoView, PlaylistView playlistView)
         {
-            CreateList();
-
             this.videoView = videoView;
+            this.playlistView = playlistView;
+            this.playlistViewModel = playlistView.DataContext as PlaylistViewModel;
 
             SetOptions();
 
             PlaybackCommand = new RelayCommand(Playback, true);
             ForwardCommand = new RelayCommand(Forward, true);
             BackwardCommand = new RelayCommand(Backward, true);
+            NextCommand = new RelayCommand(Next, true);
+            PreviousCommand = new RelayCommand(Previous, true);
             ShowPlaylistCommand = new RelayCommand(ShowPlaylist, true);
 
             videoView.MediaPlayer.Playing += VideoPlaying;
@@ -147,28 +194,22 @@ namespace VLC_cviko
             videoView.MediaPlayer.EndReached += VideoEnd;
 
             initializeVlcControl();
-
-            SetNextVideo();
-        }
-
-        public void CreateList()
-        {
-            uriList.Add(new Uri("http://download.blender.org/peach/bigbuckbunny_movies/big_buck_bunny_480p_h264.mov"));
-            uriList.Add(new Uri("D:/source/repos/bounlfi15/soul-charge/VLC_cviko/BigBuckBunny_320x180.mp4"));
         }
 
         public void SetNextVideo()
         {
-            ThreadPool.QueueUserWorkItem((v) => videoView.MediaPlayer.Play(uriList[currentIndex], mediaOptions));
+            ThreadPool.QueueUserWorkItem((v) => videoView.MediaPlayer.Play(playlistViewModel.VideoList[currentIndex].GetUriPath(), mediaOptions));
 
-            Debug.WriteLine("next " + currentIndex);
+            VideoName = playlistViewModel.VideoList[currentIndex].FileName;
+
+            Debug.WriteLine(playlistViewModel.VideoList[currentIndex].Path);
         }
 
         public void SliderChanged(object sender, VlcMediaPlayerTimeChangedEventArgs e)
         {
             VideoTime = videoView.MediaPlayer.Time;
 
-            //Debug.WriteLine(videoView.MediaPlayer.Position + "; " + videoView.MediaPlayer.Time);
+            //Debug.WriteLine(videoView.MediaPlayer.Position + "; " + videoView.MediaPlayer.Time); https://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4
         }
 
         //Play/pause
@@ -176,9 +217,16 @@ namespace VLC_cviko
         {
             if (isStopped)
             {
-                SetNextVideo();
-                isStopped = false;
-                isPaused = false;
+                if (ExistsVideo())
+                {
+                    SetNextVideo();
+                    isStopped = false;
+                    isPaused = true;
+                }
+                else
+                {
+                    return;
+                }
             }
 
             if (isPaused)
@@ -198,18 +246,75 @@ namespace VLC_cviko
         //Forward
         public void Forward()
         {
-            videoView.MediaPlayer.Time += 30000;
+            if (!isStopped)
+                videoView.MediaPlayer.Time += 30000;
         }
 
         //Backward
         public void Backward()
         {
-            videoView.MediaPlayer.Time -= 5000;
+            if (!isStopped)
+                videoView.MediaPlayer.Time -= 5000;
+        }
+
+        public void Next()
+        {
+            if (ExistsVideo())
+            {
+                currentIndex++;
+                ResetPlayer();
+
+                if (EndOfPlaylist())
+                {
+                    currentIndex = 0;
+                }
+
+                SetNextVideo();
+            }
+            else
+            {
+                Stop();
+            }
+        }
+
+        public void Previous()
+        {
+            if (ExistsVideo())
+            {
+                currentIndex--;
+                ResetPlayer();
+
+                if (StartOfPlaylist())
+                {
+                    currentIndex = playlistViewModel.VideoList.Count - 1;
+                }
+
+                SetNextVideo();
+            }
+            else
+            {
+                Stop();
+            }
+        }
+
+        public void Stop()
+        {
+            isPaused = false;
+            Playback();
+
+            isStopped = true;
         }
 
         public void ShowPlaylist()
         {
-            PlaylistView playlist = new PlaylistView();
+            if (playlistView.Visibility == System.Windows.Visibility.Visible)
+            {
+                playlistView.Hide();
+            }
+            else
+            {
+                playlistView.Show();
+            }
         }
 
         public void Rewind()
@@ -224,29 +329,32 @@ namespace VLC_cviko
 
         public void VideoEnd(object sender, VlcMediaPlayerEndReachedEventArgs e)
         {
-            currentIndex++;
-         
-            ResetPlayer();
+            Next();
+        }
 
-            if (!EndOfPlaylist())
+        public bool StartOfPlaylist()
+        {
+            if (currentIndex <= -1)
             {
-                SetNextVideo();
+                return true;
             }
-            else
-            {
-                isPaused = false;
-                Playback();
 
-                ResetPlaylist();
-
-                isStopped = true;
-                videoView.MediaPlayer.Pause();
-            }
+            return false;
         }
 
         public bool EndOfPlaylist()
         {
-            if (currentIndex >= uriList.Count)
+            if (currentIndex >= playlistViewModel.VideoList.Count)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool ExistsVideo()
+        {
+            if (playlistViewModel.VideoList.Count > 0)
             {
                 return true;
             }
@@ -259,7 +367,6 @@ namespace VLC_cviko
             var vlcLibDirectory = new DirectoryInfo(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "libvlc", IntPtr.Size == 4 ? "win-x86" : "win-x64"));
 
             videoView.MediaPlayer.VlcLibDirectory = vlcLibDirectory;
-
 
             videoView.MediaPlayer.EndInit();
         }

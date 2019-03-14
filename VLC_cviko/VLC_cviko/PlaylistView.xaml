@@ -5,8 +5,29 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:VLC_cviko"
         mc:Ignorable="d"
-        Title="PlaylistView" Height="450" Width="300">
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterOwner"
+        Title="Playlist" Height="450" Width="300">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Button Content="Add file" Height="20" Padding="5,0" Margin="5,0" Command="{Binding AddFileCommand}"/>
+            <Button Content="Add online link" Height="20" Padding="5,0" Margin="5,0" Command="{Binding AddOnlineCommand}" />
+            <Button Content="Delete" Height="20" Padding="5,0" Margin="5,0" Command="{Binding DeleteCommand}"/>
+            <Button Content="⬆️" Height="20" Padding="5,0" Margin="5,0" Command="{Binding MoveOrderCommand}" CommandParameter="0"/>
+            <Button Content="⬇️" Height="20" Padding="5,0" Margin="5,0" Command="{Binding MoveOrderCommand}" CommandParameter="1"/>
+        </StackPanel>
+        <DockPanel Grid.Row="0">
+            <ListView Height="Auto" Width="Auto" ItemsSource="{Binding VideoList}" SelectedItem="{Binding SelectedVideo}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="File name" DisplayMemberBinding="{Binding FileName}"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </DockPanel>
     </Grid>
 </Window>

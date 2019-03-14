@@ -22,10 +22,11 @@ namespace VLC_cviko
     /// </summary>
     public partial class MainWindow : Window
     {
+        PlaylistView playlistView = new PlaylistView();
         public MainWindow()
         {
             InitializeComponent();
-            this.DataContext = new MainWindowViewModel(VideoView);
+            this.DataContext = new MainWindowViewModel(VideoView, playlistView);
         }
 
         private void Slider_DragStarted(object sender, System.Windows.Controls.Primitives.DragStartedEventArgs e)
@@ -37,6 +38,13 @@ namespace VLC_cviko
         {
             ((MainWindowViewModel)DataContext).Rewind();
             ((MainWindowViewModel)DataContext).Playback();
+        }
+
+        protected override void OnClosed(EventArgs e)
+        {
+            base.OnClosed(e);
+
+            Application.Current.Shutdown();
         }
     }
 }
