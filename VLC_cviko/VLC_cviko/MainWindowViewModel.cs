@@ -24,7 +24,7 @@ namespace VLC_cviko
         private string[] mediaOptions;
 
         #region
-        private string videoName = "xd";
+        private string videoName = "";
 
         public string VideoName
         {

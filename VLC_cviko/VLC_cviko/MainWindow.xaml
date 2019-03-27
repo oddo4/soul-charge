@@ -16,7 +16,7 @@
             <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="180"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="60"/>
         </Grid.ColumnDefinitions>
@@ -31,7 +31,7 @@
             <Button Content="Forward" HorizontalAlignment="Center" Width="60" Height="20" Command="{Binding ForwardCommand}" Padding="5,0" Margin="5,0"/>
             <Button Content="Next" HorizontalAlignment="Center" Width="60" Height="20" Command="{Binding NextCommand}" Padding="5,0" Margin="5,0"/>
         </StackPanel>
-        <Label Content="{Binding VideoName}" Width="80" Grid.Row="2" Grid.Column="0"/>
+        <Label Content="{Binding VideoName}" Width="160" Grid.Row="2" Grid.Column="0"/>
         <Button Content="Playlist" Width="50" Height="20" Command="{Binding ShowPlaylistCommand}" Grid.Row="2" Grid.Column="2"/>
     </Grid>
 </Window>

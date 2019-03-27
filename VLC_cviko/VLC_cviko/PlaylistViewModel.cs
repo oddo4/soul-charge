@@ -114,7 +114,7 @@ namespace VLC_cviko
             DeleteCommand = new RelayCommand(Delete, true);
             MoveOrderCommand = new RelayCommand<object>(MoveOrder, true);
 
-            videoList.Add(new VideoData() { FileName = "online", Path = "http://download.blender.org/peach/bigbuckbunny_movies/big_buck_bunny_480p_h264.mov" } );
+            //videoList.Add(new VideoData() { FileName = "online", Path = "http://download.blender.org/peach/bigbuckbunny_movies/big_buck_bunny_480p_h264.mov" } );
         }
         public void AddFile()
         {
