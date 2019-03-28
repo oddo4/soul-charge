@@ -17,13 +17,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WebAPI
+namespace SpotifyAPI
 {
     /// <summary>
     /// Interakční logika pro MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
+        PrivateProfile profile;
         public MainWindow()
         {
             InitializeComponent();
@@ -39,15 +40,24 @@ namespace WebAPI
             AuthorizationCodeAuth auth =
         new AuthorizationCodeAuth(_clientId, _secretId, "http://localhost:4002", "http://localhost:4002",
             Scope.PlaylistReadPrivate | Scope.PlaylistReadCollaborative);
+            
+            auth.Start(); // Starts an internal HTTP Server
+            auth.OpenBrowser();
+
             auth.AuthReceived += async (sender, payload) =>
             {
                 auth.Stop();
                 Token token = await auth.ExchangeCode(payload.Code);
                 SpotifyWebAPI api = new SpotifyWebAPI() { TokenType = token.TokenType, AccessToken = token.AccessToken };
                 // Do requests with API client
+
+                profile = await api.GetPrivateProfileAsync();
+
+                if (!profile.HasError())
+                {
+                    Console.WriteLine(profile.DisplayName);
+                }
             };
-            auth.Start(); // Starts an internal HTTP Server
-            auth.OpenBrowser();
         }
     }
 }
